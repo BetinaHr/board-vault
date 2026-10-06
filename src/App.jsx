@@ -10,53 +10,19 @@ import ticketImage from './assets/images/ticket.svg'
 import wondersImage from './assets/images/wonders.svg'
 
 import './App.css'
+import Header from './components/Header'
+
 function App() {
     // const [count, setCount] = useState(0)
 
     return (
         <>
             <a className="skip-link" href="#main-content">Skip to content</a>
-            {/* ======================================================
-               SITE HEADER
-               Shared branding, navigation, search, and account actions.
-               Future React component: <Header />.
-          ======================================================= */}
-            <header className="site-header">
-                <div className="container header-layout">
-                    <a className="brand" href="index.html"><img src={vaultIcon} width="36" height="36"
-                        alt="" /><span>Board<span className="brand__accent">Vault</span></span></a>
-                    {/* ======================================================
-                   PRIMARY NAVIGATION
-                   Current page is marked with aria-current.
-                   Future React component: <Navigation />.
-            ======================================================= */}
-                    <nav className="site-nav" aria-label="Primary">
-                        <a href="index.html" aria-current="page">Discover</a>
-                        <a href="catalog.html">Catalog</a>
-                        <a href="my-vault.html">My Vault</a>
-                        <a href="create-game.html">Add Game</a>
-                    </nav>
-                    {/* ======================================================
-                   HEADER SEARCH
-                   Visual search field; future search behavior belongs in React.
-                   Future React component: <SearchBar />.
-              ======================================================= */}
-                    <div className="header-search">
-                        <label className="visually-hidden" htmlFor="header-search">Search board games</label>
-                        <span aria-hidden="true">⌕</span><input id="header-search" type="search"
-                            placeholder="Find your next game…" />
-                    </div>
-                    <div className="header-account">
-                        {/* AUTHENTICATED USERS ONLY: render account actions after login. */}
-                        <a className="avatar" href="profile.html" aria-label="Alex Morgan's profile">AM</a>
-                        <button className="button button--text" type="button">Logout</button>
-                    </div>
-                </div>
-            </header>
+            <Header />
+
             <main id="main-content" className="container main-content">
                 {/* ======================================================
                  FEATURED GAME
-                 An editorial introduction to Wingspan and its collection actions.
                  Future React component: <FeaturedGame />.
             ======================================================= */}
                 <section className="hero" aria-labelledby="featured-title">
@@ -95,7 +61,6 @@ function App() {
                 </section>
                 {/* ======================================================
                  DISCOVERY FILTERS
-                 Visual category and play-session filters, ready for React state.
                  Future React component: <FilterBar />.
             ======================================================= */}
                 <section className="discovery-filters" aria-label="Browse by category">
@@ -131,7 +96,6 @@ function App() {
                 </section>
                 {/* ======================================================
                  DISCOVER GAMES
-                 Curated game recommendations for the home page.
                  Future React component: <DiscoverGames />.
             ======================================================= */}
                 <section className="section" aria-labelledby="discover-title">
