@@ -1,13 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>board-vault</title>
-  </head>
-  <body>
-    <div id="root"></div>
+<!-- FUTURE ROUTE MAPPING
+       /                       Home
+       /catalog                Catalog
+       /games/:gameId          Game Details
+       /games/create           Create Game (authenticated)
+       /games/:gameId/edit     Edit Game (record owner)
+       /login                  Login (guest)
+       /register               Register (guest)
+       /my-vault               My Vault (authenticated)
+       /profile                Profile (authenticated)
+       /*                      404
+  -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Board Vault — discover board games and curate your personal collection.">
+    <title>
+        Discover · Board Vault
+    </title>
+    <link rel="icon" href="/src/assets/icons/vault.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/src/App.css">
+</head>
+
+<body>
+    <div id="root">
+        
+    </div>
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+</body>
+
 </html>
