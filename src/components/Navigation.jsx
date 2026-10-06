@@ -1,10 +1,12 @@
+import {Link} from "react-router";
+
 export default function Navigation() {
     return (
         <nav className="site-nav" aria-label="Primary">
-            <a href="index.html" aria-current="page">Discover</a>
-            <a href="catalog.html">Catalog</a>
-            <a href="my-vault.html">My Vault</a>
-            <a href="create-game.html">Add Game</a>
+            <Link to="/" aria-current="page">Home</Link>
+            <Link to="/catalog">Catalog</Link>
+            <Link to="/my-vault">My Vault</Link>
+            <Link to="/create-game">Add Game</Link>
         </nav>
     );
 }

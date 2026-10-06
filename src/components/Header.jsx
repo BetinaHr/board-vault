@@ -6,7 +6,7 @@ export default function Header() {
     return (
         <header className="site-header">
             <div className="container header-layout">
-                <a className="brand" href="index.html"><img src={vaultIcon} width="36" height="36"
+                <a className="brand" href="/"><img src={vaultIcon} width="36" height="36"
                     alt="" /><span>Board<span className="brand__accent">Vault</span></span>
                 </a>
 

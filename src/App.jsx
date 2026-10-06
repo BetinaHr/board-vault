@@ -4,11 +4,10 @@
 import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import FeaturedGame from './components/FeaturedGame'
-// import DiscoverGames from './components/DiscoverGames';
 import { Routes, Route } from 'react-router';
 import Catalog from './components/Catalog';
 import Home from './components/Home';
+import NotFound from './components/NotFound';
 
 function App() {
     // const [count, setCount] = useState(0)
@@ -19,13 +18,14 @@ function App() {
             <Header />
 
             <main id="main-content" className="container main-content">
-                <FeaturedGame />
+                {/* <FeaturedGame /> */}
                 {/* Games Filter - hidden -> DiscoveryFilters */}
                 {/* <DiscoverGames /> */}
 
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/catalog" element={<Catalog />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
             <Footer />
