@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 
 export default function GameCard({ game }) {
     return (
@@ -33,10 +34,14 @@ export default function GameCard({ game }) {
                         {game.min_playtime !== game.max_playtime ? game.min_playtime + '-' + game.max_playtime : game.min_playtime}
                         min</span>
                 </div>
+
                 <div className="game-card__actions">
-                    <a className="button button--secondary button--small" href="game-details.html">View details</a>
-                    <button className="favorite-button" type="button"
-                        aria-label={`Add ${game.title} to favorites`} aria-pressed="false">♡</button>
+                    {/* TODO: Implement dynamic game details view */}
+                    <NavLink className="button button--secondary button--small" to={`/game-details/${game.id}`}>View details</NavLink>
+                    {/* <a className="button button--secondary button--small" href="game-details.html">View details</a> */}
+                    <button className="favorite-button" type="button" aria-label={`Add ${game.title} to favorites`} aria-pressed="false">
+                        ♡
+                    </button>
                 </div>
             </div>
         </article>
