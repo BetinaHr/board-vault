@@ -22,8 +22,16 @@ export default function GameCard({ game }) {
                     {game.description}
                 </p>
                 <div className="game-card__meta">
-                    <span><span aria-hidden="true">♙</span> {game.min_players}–{game.max_players} players</span><span><span
-                        aria-hidden="true">◷</span> {game.max_playtime} min</span>
+                    <span>
+                        <span aria-hidden="true">♙</span>
+                        {game.min_players}–{game.max_players} players
+                    </span>
+
+                    <span>
+                        <span aria-hidden="true">◷</span>
+
+                        {game.min_playtime !== game.max_playtime ? game.min_playtime + '-' + game.max_playtime : game.min_playtime}
+                        min</span>
                 </div>
                 <div className="game-card__actions">
                     <a className="button button--secondary button--small" href="game-details.html">View details</a>
