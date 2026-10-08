@@ -1,7 +1,21 @@
+import { useEffect, useState } from 'react'
+import * as gameService from '../services/gameService.js'
+
 export default function Catalog() {
+
+    const [games, setGames] = useState([]);
+
+    useEffect(() => {
+        gameService.getAll()
+            .then(setGames)
+    }, [])
+
+    for (const game of games) {
+        console.log(game.title);
+    }
+
     return (
         <>
-            {/* ====================================================== PAGE INTRODUCTION Page heading and contextual actions. Future React component: <PageHeading />. ======================================================= */}
             <div className="page-heading">
                 <div>
                     <p className="eyebrow">
@@ -15,7 +29,7 @@ export default function Catalog() {
                     </p>
                 </div>
             </div>
-            {/* ====================================================== CATALOG SEARCH AND FILTERS Visual search, filters, and sorting controls; no filtering is implemented. Future React component: <FilterBar />. ======================================================= */}
+            {/* CATALOG SEARCH AND FILTERS Visual search, filters, and sorting controls; Future React component: <FilterBar />. */}
             <section className="filter-panel" aria-label="Catalog filters">
                 <div className="catalog-search form-group">
                     <label htmlFor="catalog-search" className="form-label">
@@ -135,7 +149,7 @@ export default function Catalog() {
                     </div>
                 </div>
             </section>
-            {/* ====================================================== CATALOG RESULTS Eight realistic sample games; all detail links lead to the example Wingspan page. Future React component: <CatalogResults />. ======================================================= */}
+            {/*CATALOG RESULTS Future React component: <CatalogResults />. */}
             <section className="section" aria-labelledby="results-title">
                 <div className="section-heading">
                     <h2 id="results-title">
@@ -147,9 +161,9 @@ export default function Catalog() {
                         A great game night starts here.
                     </span>
                 </div>
-                {/* ====================================================== GAME GRID Responsive collection of game previews: one, two, or four columns. Future React component: <GameGrid />. ======================================================= */}
+                {/* GAME GRID Responsive collection of game previews: one, two, or four columns. Future React component: <GameGrid />. */}
                 <div className="game-grid">
-                    {/* ====================================================== GAME CARD Catalog preview for Wingspan; metadata and actions share a reusable structure. Future React component: <GameCard />. ======================================================= */}
+                    {/* GAME CARD Catalog preview for Wingspan; metadata and actions share a reusable structure. Future React component: <GameCard />. */}
                     <article className="game-card">
                         <a className="game-card__cover" href="game-details.html" aria-label="View Wingspan details">
                             <img
@@ -199,7 +213,7 @@ export default function Catalog() {
                             </div>
                         </div>
                     </article>
-                    {/* ====================================================== GAME CARD Catalog preview for Terraforming Mars; metadata and actions share a reusable structure. Future React component: <GameCard />. ======================================================= */}
+                    {/*  GAME CARD Catalog preview for Terraforming Mars; metadata and actions share a reusable structure. Future React component: <GameCard />. */}
                     <article className="game-card">
                         <a className="game-card__cover" href="game-details.html" aria-label="View Terraforming Mars details">
                             <img className="game-card__image"
@@ -249,7 +263,7 @@ export default function Catalog() {
                             </div>
                         </div>
                     </article>
-                    {/* ====================================================== GAME CARD Catalog preview for Azul; metadata and actions share a reusable structure. Future React component: <GameCard />. ======================================================= */}
+                    {/* GAME CARD Catalog preview for Azul; metadata and actions share a reusable structure. Future React component: <GameCard />.  */}
                     <article className="game-card">
                         <a className="game-card__cover" href="game-details.html" aria-label="View Azul details">
                             <img
@@ -296,7 +310,7 @@ export default function Catalog() {
                             </div>
                         </div>
                     </article>
-                    {/* ====================================================== GAME CARD Catalog preview for Catan; metadata and actions share a reusable structure. Future React component: <GameCard />. ======================================================= */}
+                    {/*  GAME CARD Catalog preview for Catan; Future React component: <GameCard />. */}
                     <article className="game-card">
                         <a className="game-card__cover" href="game-details.html" aria-label="View Catan details">
                             <img
@@ -346,7 +360,7 @@ export default function Catalog() {
                             </div>
                         </div>
                     </article>
-                    {/* ====================================================== GAME CARD Catalog preview for Carcassonne; metadata and actions share a reusable structure. Future React component: <GameCard />. ======================================================= */}
+                    {/* GAME CARD Catalog preview for Carcassonne; Future React component: <GameCard />.*/}
                     <article className="game-card">
                         <a className="game-card__cover" href="game-details.html" aria-label="View Carcassonne details">
                             <img
@@ -393,7 +407,7 @@ export default function Catalog() {
                             </div>
                         </div>
                     </article>
-                    {/* ====================================================== GAME CARD Catalog preview for Pandemic; metadata and actions share a reusable structure. Future React component: <GameCard />. ======================================================= */}
+                    {/* GAME CARD Catalog preview for Pandemic; Future React component: <GameCard />.  */}
                     <article className="game-card">
                         <a className="game-card__cover" href="game-details.html" aria-label="View Pandemic details">
                             <img
@@ -444,7 +458,7 @@ export default function Catalog() {
                             </div>
                         </div>
                     </article>
-                    {/* ====================================================== GAME CARD Catalog preview for Ticket to Ride; metadata and actions share a reusable structure. Future React component: <GameCard />. ======================================================= */}
+                    {/* GAME CARD Catalog preview for Ticket to Ride; Future React component: <GameCard />.  */}
                     <article className="game-card">
                         <a className="game-card__cover" href="game-details.html" aria-label="View Ticket to Ride details">
                             <img
@@ -491,7 +505,7 @@ export default function Catalog() {
                             </div>
                         </div>
                     </article>
-                    {/* ====================================================== GAME CARD Catalog preview for 7 Wonders; metadata and actions share a reusable structure. Future React component: <GameCard />. ======================================================= */}
+                    {/*  GAME CARD Catalog preview for 7 Wonders; Future React component: <GameCard />.  */}
                     <article className="game-card">
                         <a className="game-card__cover" href="game-details.html" aria-label="View 7 Wonders details">
                             <img
@@ -540,12 +554,12 @@ export default function Catalog() {
                     </article>
                 </div>
             </section>
-            {/* ====================================================== API PRESENTATION STATES Expandable demonstrations of future loading and failure states. Future React component: <CatalogStates />. ======================================================= */}
+            {/* API PRESENTATION STATES Expandable demonstrations of future loading and failure states. Future React component: <CatalogStates />. */}
             <details className="state-preview">
                 <summary>
                     Collection loading &amp; connection states
                 </summary>
-                {/* ====================================================== LOADING STATE Static skeleton cards displayed while future API requests are pending. Future React component: <LoadingState />. ======================================================= */}
+                {/* LOADING STATE Static skeleton cards displayed while future API requests are pending. Future React component: <LoadingState />. */}
                 <section className="state-section" aria-labelledby="loading-title">
                     <h3 id="loading-title">
                         Loading games…
@@ -585,7 +599,7 @@ export default function Catalog() {
                         </div>
                     </div>
                 </section>
-                {/* ====================================================== API ERROR STATE Recoverable connection error with a visual retry action. Future React component: <ApiError />. ======================================================= */}
+                {/*  API ERROR STATE Recoverable connection error with a visual retry action. Future React component: <ApiError />. */}
                 <section className="error-state" aria-labelledby="error-title">
                     <span className="state-icon" aria-hidden="true">
                         !
