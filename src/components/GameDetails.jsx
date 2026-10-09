@@ -1,33 +1,32 @@
-import { useEffect, useState, useParams } from 'react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 import * as gameService from '../services/gameService.js'
 
+
 export default function GameDetails() {
+    // ID params from the URL
     const { gameId } = useParams();
 
+    // Status handling for the API request: loading, error, and game data.
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const [games, setGames] = useState([]);
+    // Saves the game data fetched from the API
+    const [game, setGame] = useState(null);
 
     useEffect(() => {
-        gameService.getAll()
-            .then(setGames)
-    }, [])
+        gameService.getById(gameId)
+            .then(setGame)
+            .catch(error => setError(error))
+            .finally(() => setLoading(false));
+    }, [gameId]);
 
-    const game = games.getById(gameId);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p role="alert">{error.message}</p>;
+    if (!game) return <p>Game not found.</p>;
+
     return (
         <>
-            {/*
-           BREADCRUMB
-           Contextual navigation from the catalog to the example game.
-           Future React component: <Breadcrumb />. 
-           */}
-            <nav className="breadcrumb" aria-label="Breadcrumb">
-                <a href="catalog.html">Catalog</a>
-                <span aria-hidden="true">/</span><span aria-current="page">{game.title}</span>
-            </nav>
-            {/* 
-            GAME DETAILS
-            Future React component: <GameDetails />.
-             */}
             <section className="game-details" aria-labelledby="game-title">
                 <div className="game-details__art">
                     <img src={game.image_url} alt={`Illustrated ${game.title} game cover`} width="600" height="600" /><span className="art-caption">A game as beautiful as the birds it celebrates.</span>
@@ -43,10 +42,16 @@ export default function GameDetails() {
                     </div>
 
                     <div className="chip-list">
-                        <span className="badge">Strategy</span><span className="badge">Engine Building</span>
+                        <span className="badge">{game.category}</span>
+
+                        {/* Mechanics is an array of strings in the database */}
+                        {/* Add each mechanic in a separate badge */}
+                        {game.mechanics?.map(mechanic => {
+                            return <span key={mechanic} className="badge">{mechanic}</span>;
+                        })}
                     </div>
                     <p>
-                        You are a bird enthusiast, seeking to discover and attract the best birds to your network of wildlife preserves. Every bird brings a new possibility.
+                        {game.description}
                     </p>
                     <dl className="game-facts">
                         <div>
@@ -54,7 +59,7 @@ export default function GameDetails() {
                                 Players
                             </dt>
                             <dd>
-                                1–5
+                                {game.min_players}–{game.max_players}
                             </dd>
                         </div>
                         <div>
@@ -62,7 +67,11 @@ export default function GameDetails() {
                                 Play time
                             </dt>
                             <dd>
-                                40–70 <small>min</small>
+                                {game.min_playtime !== game.max_playtime
+                                    ? `${game.min_playtime}–${game.max_playtime}`
+                                    : game.max_playtime}
+                                {' '}
+                                <small>min</small>
                             </dd>
                         </div>
                         {/* <div>
@@ -100,14 +109,9 @@ export default function GameDetails() {
                             About Wingspan
                         </h2>
                         <p>
-                            Wingspan is a competitive, medium-weight, card-driven engine-building game. As a bird enthusiast, you discover and attract birds to three distinct habitats: forest, grassland, and wetland. Each habitat focuses on a different aspect of your growing sanctuary.
+                            {game.story}
                         </p>
-                        <p>
-                            Gain food through custom dice in a birdfeeder, lay eggs using miniature eggs in a variety of colors, and draw from hundreds of unique bird cards. Beautiful illustrations and thoughtful interactions make every turn a small discovery.
-                        </p>
-                        <p>
-                            Across four rounds, build combinations that work together, pursue shared goals, and find your own path to a flourishing preserve. Play solo or gather up to five bird lovers around the table.
-                        </p>
+
                         <h3>
                             Categories &amp; mechanics
                         </h3>
@@ -191,15 +195,7 @@ export default function GameDetails() {
                                 Designer
                             </dt>
                             <dd>
-                                Elizabeth Hargrave
-                            </dd>
-                        </div>
-                        <div>
-                            <dt>
-                                Publisher
-                            </dt>
-                            <dd>
-                                Stonemaier Games
+                                {game.designer}
                             </dd>
                         </div>
                         <div>
@@ -207,7 +203,7 @@ export default function GameDetails() {
                                 Release year
                             </dt>
                             <dd>
-                                2019
+                                {game.release_year}
                             </dd>
                         </div>
                         <div>
@@ -215,7 +211,7 @@ export default function GameDetails() {
                                 Minimum players
                             </dt>
                             <dd>
-                                1
+                                {game.min_players}
                             </dd>
                         </div>
                         <div>
@@ -223,7 +219,7 @@ export default function GameDetails() {
                                 Maximum players
                             </dt>
                             <dd>
-                                5
+                                {game.max_players}
                             </dd>
                         </div>
                         <div>
@@ -231,15 +227,11 @@ export default function GameDetails() {
                                 Playing time
                             </dt>
                             <dd>
-                                40–70 minutes
-                            </dd>
-                        </div>
-                        <div>
-                            <dt>
-                                Minimum age
-                            </dt>
-                            <dd>
-                                10 years
+                                {game.min_playtime !== game.max_playtime
+                                    ? `${game.min_playtime}–${game.max_playtime}`
+                                    : game.max_playtime}
+                                {' '}
+                                <small>min</small>
                             </dd>
                         </div>
                         <div>
@@ -247,16 +239,10 @@ export default function GameDetails() {
                                 Difficulty
                             </dt>
                             <dd>
-                                Medium · 2.4 / 5
+                                {game.difficulty}
                             </dd>
                         </div>
                     </dl>
-                    <div className="information-note">
-                        <span aria-hidden="true">✦</span>
-                        <p>
-                            A thoughtful pick for players who enjoy building something that gets better with every turn.
-                        </p>
-                    </div>
                 </aside>
             </div>
         </>
