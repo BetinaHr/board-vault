@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import * as gameService from '../services/gameService.js'
+import * as gameService from '../../services/gameService.js'
 
 export default function Catalog() {
 

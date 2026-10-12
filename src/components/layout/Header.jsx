@@ -1,4 +1,4 @@
-import vaultIcon from '../assets/icons/vault.svg'
+import vaultIcon from '../../assets/icons/vault.svg'
 import Navigation from './Navigation'
 
 

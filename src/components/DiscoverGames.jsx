@@ -10,7 +10,7 @@
 
 import { useEffect, useState } from 'react'
 import * as gameService from '../services/gameService.js'
-import GameCard from './GameCard.jsx';
+import GameCard from './shared/GameCard.jsx';
 
 
 export default function DiscoverGames() {

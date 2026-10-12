@@ -1,4 +1,4 @@
-import vaultIcon from '../assets/icons/vault.svg'
+import vaultIcon from '../../assets/icons/vault.svg'
 
 export default function Footer() {
     return (

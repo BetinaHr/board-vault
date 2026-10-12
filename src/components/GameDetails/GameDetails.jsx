@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import * as gameService from '../services/gameService.js'
+import * as gameService from '../../services/gameService.js'
 
 
 export default function GameDetails() {

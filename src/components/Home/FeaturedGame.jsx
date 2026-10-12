@@ -1,4 +1,4 @@
-import wingspanImage from '../assets/images/wingspan.svg'
+import wingspanImage from '../../assets/images/wingspan.svg'
 
 export default function FeaturedGame() {
     return (
