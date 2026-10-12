@@ -21,9 +21,9 @@ export default function DiscoverGames() {
                 .then(setGames)
         }, [])
     
-        for (const game of games) {
-            console.log(game.title);
-        }
+        // for (const game of games) {
+        //     console.log(game.title);
+        // }
 
 
         return (
