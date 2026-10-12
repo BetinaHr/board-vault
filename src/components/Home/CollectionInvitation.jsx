@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function CollectionInvitation() {
     return (
         <section className="collection-banner">
@@ -12,7 +14,8 @@ export default function CollectionInvitation() {
                     Keep the ones you love close, and leave a little room for what comes next.
                 </p>
             </div>
-            <a className="button button--primary" href="my-vault.html">Explore My Vault →</a>
+            {/* <a className="button button--primary" href="my-vault.html">Explore My Vault →</a> */}
+            <Link className="button button--secondary" to="/my-vault">Explore My Vault →</Link>
         </section>
     );
 }
