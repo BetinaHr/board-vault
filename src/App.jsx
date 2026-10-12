@@ -10,6 +10,9 @@ import Home from './components/Home/Home.jsx';
 import NotFound from './components/NotFound';
 import GameDetails from './components/GameDetails/GameDetails.jsx';
 import MyVault from './components/Vault/Vault.jsx';
+import Login from './components/auth/Login.jsx';
+import Register from './components/auth/Register.jsx';
+
 
 
 function App() {
@@ -30,6 +33,9 @@ function App() {
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/my-vault" element={<MyVault />} />
                     <Route path="/game-details/:gameId" element={<GameDetails />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
