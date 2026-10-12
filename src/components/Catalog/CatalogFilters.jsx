@@ -1,4 +1,4 @@
-export default function CatalogFilters() {
+export default function CatalogFilters({ searchState, onSearchChange }) {
     return (
         <>
             {/* CATALOG SEARCH AND FILTERS Visual search, filters, and sorting controls; Future React component: <FilterBar />. */}
@@ -7,7 +7,11 @@ export default function CatalogFilters() {
                     <label htmlFor="catalog-search" className="form-label">
                         Search the collection
                     </label>
-                    <input className="form-input" type="search" id="catalog-search" placeholder="Search by game name…" />
+
+                    {/* On change in the search bar, we get the typed value and save it in searchState */}
+                    <input className="form-input" type="search" id="catalog-search" placeholder="Search by game name…" value={searchState}
+                        onChange={event => onSearchChange(event.target.value)}
+                    />
                 </div>
                 <div className="filter-bar">
                     <div className="form-group">
