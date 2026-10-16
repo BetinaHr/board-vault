@@ -1,8 +1,8 @@
 import vaultIcon from '../../assets/icons/vault.svg'
 import Navigation from './Navigation'
+import { Link } from 'react-router';
 
-
-export default function Header() {
+export default function Header({ user, onLogout }) {
     return (
         <header className="site-header">
             <div className="container header-layout">
@@ -22,7 +22,16 @@ export default function Header() {
                 <div className="header-account">
                     {/* AUTHENTICATED USERS ONLY: render account actions after login. */}
                     <a className="avatar" href="profile.html" aria-label="Alex Morgan's profile">AM</a>
-                    <button className="button button--text" type="button">Logout</button>
+                    {user ? (
+                        <button className="button button--text" type="button" onClick={onLogout}>Logout</button>
+                    ) : (
+                        <>
+                            <Link className="button button--text" to="/login">Login</Link>
+                            <Link className="button button--text" to="/register">Register</Link>
+                        </>
+
+                    )
+                    }
                 </div>
             </div>
         </header>
