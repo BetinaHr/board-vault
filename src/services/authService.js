@@ -5,6 +5,13 @@ export function register(username, email, password) {
         email,
         password,
         // supabase expects data object
-        data : {username}
+        data: { username }
+    })
+}
+
+export function login( email, password ) {
+    return request('/auth/v1/token?grant_type=password', 'POST', { 
+        email, 
+        password,
     })
 }

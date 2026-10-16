@@ -42,7 +42,7 @@ function App() {
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/my-vault" element={<MyVault />} />
                     <Route path="/game-details/:gameId" element={<GameDetails />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<Login onLogin={userAuthHandler} />} />
                     <Route path="/register" element={<Register onRegister={userAuthHandler} />} />
                     <Route path="/logout" element={onLogout}/>
 

@@ -2,17 +2,22 @@ import { Link } from 'react-router';
 import azulImage from '../../assets/images/azul.svg';
 import wingspanImage from '../../assets/images/wingspan.svg';
 import * as authService from '../../services/authService.js';
+import { useState } from 'react';
 
 export default function Register({ onRegister },) {
+    const [passwordMismatch, setPasswordMismatch] = useState(false);
+
     const registerAction = async (formData) => {
         const username = formData.get("username");
         const email = formData.get("email");
         const password = formData.get("password");
         const confirmPassword = formData.get("confirm-password");
 
+        setPasswordMismatch(false);
         if (password !== confirmPassword) {
-            alert("Passwords do not match");
-            return
+            setPasswordMismatch(true);
+
+            return;
         }
 
         if (!username || !email || !password || !confirmPassword) {
@@ -143,7 +148,7 @@ export default function Register({ onRegister },) {
                             Confirm Password{' '}
                             <span className="required" aria-hidden="true">*</span>
                         </label>
-                        <input
+                        {/* <input
                             className="form-input form-input--error"
                             id="confirm-password"
                             name="confirm-password"
@@ -152,14 +157,31 @@ export default function Register({ onRegister },) {
                             autoComplete="new-password"
                             aria-describedby="confirm-password-error"
                             aria-invalid="true"
+                        /> */}
+
+                        {/* If there is password mismatch -> change the styling of the field to red */}
+                        <input
+                            className={`form-input${passwordMismatch ? ' form-input--error' : ''}`}
+                            id="confirm-password"
+                            name="confirm-password"
+                            type="password"
+                            required
+                            autoComplete="new-password"
+                            aria-invalid={passwordMismatch}
+                            aria-describedby={passwordMismatch ? 'confirm-password-error' : undefined}
                         />
-                        <p className="form-error" id="confirm-password-error">
-                            Passwords must match.
-                        </p>
+
+                        {/* If there is password mismatch -> show error message */}
+                        {passwordMismatch && (
+                            <p className="form-error" id="confirm-password-error">
+                                Passwords must match.
+                            </p>
+
+                        )}
                     </div>
 
                     <button className="button button--primary button--full" type="submit">
-                        Create Account <span aria-hidden="true">→</span>
+                        Create Account
                     </button>
                 </form>
 

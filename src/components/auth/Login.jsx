@@ -1,8 +1,33 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import azulImage from '../../assets/images/azul.svg';
 import wingspanImage from '../../assets/images/wingspan.svg';
+import * as authService from '../../services/authService.js';
 
-export default function Login() {
+export default function Login({ onLogin }) {
+    const navigate = useNavigate();
+
+    const loginAction = async (formData) => {
+        const email = formData.get("email");
+        const password = formData.get("password");
+
+
+        if (!email || !password ) {
+            alert("All fields should be filled.");
+            return;
+        }
+
+        try {
+            const result = await authService.login(email, password);
+            onLogin(result.user);
+            console.log("Welcome",  result.user);
+            navigate('/');
+            
+
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
     return (
         <>
             <div className="auth-layout">
@@ -54,7 +79,7 @@ export default function Login() {
                     Invalid email or password.
                 </div> */}
 
-                    <form>
+                    <form action={loginAction}>
                         <div className="form-group">
                             <label className="form-label" htmlFor="email">
                                 Email <span className="required" aria-hidden="true">*</span>
@@ -89,10 +114,8 @@ export default function Login() {
                         </label>
 
                         <button
-                            className="button button--primary button--full"
-                            type="button"
-                        >
-                            Login <span aria-hidden="true">→</span>
+                            className="button button--primary button--full" type="submit">
+                            Login
                         </button>
                     </form>
 
