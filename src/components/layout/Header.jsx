@@ -10,7 +10,7 @@ export default function Header({ user, onLogout }) {
                     alt="" /><span>Board<span className="brand__accent">Vault</span></span>
                 </a>
 
-                <Navigation />
+                <Navigation user = {user}/>
                 {/* ======================================================
                    HEADER SEARCH
               ======================================================= */}

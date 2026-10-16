@@ -11,6 +11,7 @@ import MyVault from './components/Vault/Vault.jsx';
 import Login from './components/auth/Login.jsx';
 import Register from './components/auth/Register.jsx';
 import { useState } from 'react';
+import CreateGame from './components/CreateGame/CreateGame.jsx';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/my-vault" element={<MyVault />} />
+                    <Route path="/create-game" element={<CreateGame />} />
                     <Route path="/game-details/:gameId" element={<GameDetails />} />
                     <Route path="/login" element={<Login onLogin={userAuthHandler} />} />
                     <Route path="/register" element={<Register onRegister={userAuthHandler} />} />
