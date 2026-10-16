@@ -1,8 +1,42 @@
 import { Link } from 'react-router';
 import azulImage from '../../assets/images/azul.svg';
 import wingspanImage from '../../assets/images/wingspan.svg';
+import * as authService from '../../services/authService.js';
 
-export default function Register() {
+export default function Register({ onRegister },) {
+    const registerAction = async (formData) => {
+        const username = formData.get("username");
+        const email = formData.get("email");
+        const password = formData.get("password");
+        const confirmPassword = formData.get("confirm-password");
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return
+        }
+
+        if (!username || !email || !password || !confirmPassword) {
+            alert("All fields should be filled.");
+            return;
+        }
+
+        try {
+            const result = await authService.register(username, email, password);
+
+            // Pass the whole user to App.jsx
+            if (result.access_token) {
+                onRegister(result.user);
+                console.log("Login successful")
+            } else {
+                alert('Check your email to confirm your account.');
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+
+
     return (
         <div className="auth-layout">
             <aside className="auth-introduction">
@@ -51,7 +85,7 @@ export default function Register() {
                     Create your own corner of Board Vault.
                 </p>
 
-                <form>
+                <form action={registerAction}>
                     <div className="form-group">
                         <label className="form-label" htmlFor="username">
                             Username{' '}
@@ -124,10 +158,7 @@ export default function Register() {
                         </p>
                     </div>
 
-                    <button
-                        className="button button--primary button--full"
-                        type="button"
-                    >
+                    <button className="button button--primary button--full" type="submit">
                         Create Account <span aria-hidden="true">→</span>
                     </button>
                 </form>

@@ -1,5 +1,3 @@
-// import { useState } from 'react'
-
 
 import './App.css'
 import Header from './components/layout/Header.jsx'
@@ -12,16 +10,27 @@ import GameDetails from './components/GameDetails/GameDetails.jsx';
 import MyVault from './components/Vault/Vault.jsx';
 import Login from './components/auth/Login.jsx';
 import Register from './components/auth/Register.jsx';
-
+import { useState } from 'react';
 
 
 function App() {
-    // const [count, setCount] = useState(0)
+    const [user, setUser] = useState(null);
+
+    // receives the whole user from onRegister
+    const userAuthHandler = (userData) => {
+        setUser(userData);
+        console.log("User: ", userData)
+
+    }
+    
+    const onLogout = () => {
+        setUser(null);
+    }
 
     return (
         <>
             <a className="skip-link" href="#main-content">Skip to content</a>
-            <Header />
+            <Header user={user} onLogout={onLogout}/>
 
             <main id="main-content" className="container main-content">
                 {/* <FeaturedGame /> */}
@@ -34,7 +43,8 @@ function App() {
                     <Route path="/my-vault" element={<MyVault />} />
                     <Route path="/game-details/:gameId" element={<GameDetails />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route path="/register" element={<Register onRegister={userAuthHandler} />} />
+                    <Route path="/logout" element={onLogout}/>
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>
