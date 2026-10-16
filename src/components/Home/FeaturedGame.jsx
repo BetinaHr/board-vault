@@ -29,7 +29,7 @@ export default function FeaturedGame({ game }) {
                         View Details <span aria-hidden="true">↗</span>
                     </Link>
 
-                    {/* AUTHENTICATED USERS ONLY: collection actions require login. */}
+                    {/* AUTHENTICATED USERS ONLY*/}
                     <button className="button button--hero" type="button">+ Add to Vault</button>
                 </div>
                 <p className="hero__note">

@@ -11,16 +11,14 @@ export default function Header({ user, onLogout }) {
                 </a>
 
                 <Navigation user = {user}/>
-                {/* ======================================================
-                   HEADER SEARCH
-              ======================================================= */}
+
                 <div className="header-search">
                     <label className="visually-hidden" htmlFor="header-search">Search board games</label>
                     <span aria-hidden="true">⌕</span><input id="header-search" type="search"
                         placeholder="Find your next game…" />
                 </div>
                 <div className="header-account">
-                    {/* AUTHENTICATED USERS ONLY: render account actions after login. */}
+                    {/* AUTHENTICATED USERS ONLY */}
                     <a className="avatar" href="profile.html" aria-label="Alex Morgan's profile">AM</a>
                     {user ? (
                         <button className="button button--text" type="button" onClick={onLogout}>Logout</button>

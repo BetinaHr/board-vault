@@ -8,6 +8,8 @@ import * as gameService from '../../services/gameService.js';
 
 export default function Home() {
     const [games, setGames] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
 
     // Keeping the chosen category for filtering.
@@ -16,15 +18,17 @@ export default function Home() {
     useEffect(() => {
         gameService.getAll()
             .then(setGames)
-            .catch(console.error);
+            .catch(setError)
+            .finally(() => setLoading(false));
     }, []);
 
     const featuredGame = games.find(game => game.title === 'Wingspan');
+    
     return (
         <>
             {featuredGame && <FeaturedGame game={featuredGame} />}
             <DiscoveryFilters category = {category} onCategoryChange={setCategory} />
-            <DiscoverGames category = {category}/>
+            <DiscoverGames category={category} games={games} loading={loading} error={error} />
             <CollectionInvitation />
         </>
     );

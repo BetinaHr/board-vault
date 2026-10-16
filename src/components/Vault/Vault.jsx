@@ -2,12 +2,7 @@ export default function MyVault() {
   return (
   <>
     <a className="skip-link" href="#main-content">Skip to content</a>
-      {/* AUTHENTICATED USERS ONLY: this page represents a private collection. */}
-      {/* ======================================================
-           PAGE INTRODUCTION
-           Page heading and contextual actions.
-           Future React component: <PageHeading />.
-      ======================================================= */}
+      {/* <PageHeading />.*/}
       <div className="page-heading">
         <div>
           <p className="eyebrow">
@@ -22,11 +17,7 @@ export default function MyVault() {
         </div>
         <a className="button button--primary" href="create-game.html">+ Add Game</a>
       </div>
-      {/* ======================================================
-           COLLECTION STATISTICS
-           Summary counts for a personal collection.
-           Future React component: <CollectionStats />.
-      ======================================================= */}
+      {/* <CollectionStats />*/}
       <dl className="profile-stats">
         <div>
           <dt>
@@ -61,11 +52,7 @@ export default function MyVault() {
           </dd>
         </div>
       </dl>
-      {/* ======================================================
-           COLLECTION FILTERS
-           Visual status filters; counts summarize a larger future collection.
-           Future React component: <VaultFilters />.
-      ======================================================= */}
+      {/* <VaultFilters /> */}
       <section className="vault-filters" aria-label="Filter your collection">
         <div className="chip-list">
           <button type="button" className="chip is-active" aria-pressed="true">All</button>
@@ -76,26 +63,14 @@ export default function MyVault() {
         </div>
         <span className="muted">8 highlights from your vault</span>
       </section>
-      {/* ======================================================
-           PERSONAL COLLECTION
-           Representative collection cards with ownership and play status.
-           Future React component: <VaultCollection />.
-      ======================================================= */}
+      {/* <VaultCollection /> */}
       <section aria-labelledby="vault-games">
         <h2 id="vault-games" className="visually-hidden">
           Games in your vault
         </h2>
-        {/* ======================================================
-             GAME GRID
-             Responsive collection of game previews: one, two, or four columns.
-             Future React component: <GameGrid />.
-        ======================================================= */}
+   
         <div className="game-grid">
-          {/* ======================================================
-               GAME CARD
-               Catalog preview for Wingspan; metadata and actions share a reusable structure.
-               Future React component: <GameCard />.
-          ======================================================= */}
+
           <article className="game-card">
             <a className="game-card__cover" href="game-details.html" aria-label="View Wingspan details"><img className="game-card__image" src="assets/images/wingspan.svg" alt="Illustrated Wingspan cover" width="600" height="600" loading="lazy" /><span className="badge badge--cover">Featured</span></a>
             <div className="game-card__body">
@@ -118,11 +93,7 @@ export default function MyVault() {
               </div>
             </div>
           </article>
-          {/* ======================================================
-               GAME CARD
-               Catalog preview for Terraforming Mars; metadata and actions share a reusable structure.
-               Future React component: <GameCard />.
-          ======================================================= */}
+
           <article className="game-card">
             <a className="game-card__cover" href="game-details.html" aria-label="View Terraforming Mars details"><img className="game-card__image" src="assets/images/mars.svg" alt="Illustrated Terraforming Mars cover" width="600" height="600" loading="lazy" /><span className="badge badge--cover">Community favorite</span></a>
             <div className="game-card__body">
@@ -145,11 +116,7 @@ export default function MyVault() {
               </div>
             </div>
           </article>
-          {/* ======================================================
-               GAME CARD
-               Catalog preview for Azul; metadata and actions share a reusable structure.
-               Future React component: <GameCard />.
-          ======================================================= */}
+
           <article className="game-card">
             <a className="game-card__cover" href="game-details.html" aria-label="View Azul details"><img className="game-card__image" src="assets/images/azul.svg" alt="Illustrated Azul cover" width="600" height="600" loading="lazy" /></a>
             <div className="game-card__body">
@@ -172,11 +139,7 @@ export default function MyVault() {
               </div>
             </div>
           </article>
-          {/* ======================================================
-               GAME CARD
-               Catalog preview for Catan; metadata and actions share a reusable structure.
-               Future React component: <GameCard />.
-          ======================================================= */}
+
           <article className="game-card">
             <a className="game-card__cover" href="game-details.html" aria-label="View Catan details"><img className="game-card__image" src="assets/images/catan.svg" alt="Illustrated Catan cover" width="600" height="600" loading="lazy" /><span className="badge badge--cover">Classic</span></a>
             <div className="game-card__body">
@@ -199,11 +162,7 @@ export default function MyVault() {
               </div>
             </div>
           </article>
-          {/* ======================================================
-               GAME CARD
-               Catalog preview for Carcassonne; metadata and actions share a reusable structure.
-               Future React component: <GameCard />.
-          ======================================================= */}
+
           <article className="game-card">
             <a className="game-card__cover" href="game-details.html" aria-label="View Carcassonne details"><img className="game-card__image" src="assets/images/carcassonne.svg" alt="Illustrated Carcassonne cover" width="600" height="600" loading="lazy" /></a>
             <div className="game-card__body">
@@ -226,11 +185,7 @@ export default function MyVault() {
               </div>
             </div>
           </article>
-          {/* ======================================================
-               GAME CARD
-               Catalog preview for Pandemic; metadata and actions share a reusable structure.
-               Future React component: <GameCard />.
-          ======================================================= */}
+
           <article className="game-card">
             <a className="game-card__cover" href="game-details.html" aria-label="View Pandemic details"><img className="game-card__image" src="assets/images/pandemic.svg" alt="Illustrated Pandemic cover" width="600" height="600" loading="lazy" /><span className="badge badge--cover">Cooperative</span></a>
             <div className="game-card__body">
@@ -253,11 +208,7 @@ export default function MyVault() {
               </div>
             </div>
           </article>
-          {/* ======================================================
-               GAME CARD
-               Catalog preview for Ticket to Ride; metadata and actions share a reusable structure.
-               Future React component: <GameCard />.
-          ======================================================= */}
+
           <article className="game-card">
             <a className="game-card__cover" href="game-details.html" aria-label="View Ticket to Ride details"><img className="game-card__image" src="assets/images/ticket.svg" alt="Illustrated Ticket to Ride cover" width="600" height="600" loading="lazy" /></a>
             <div className="game-card__body">
@@ -280,11 +231,7 @@ export default function MyVault() {
               </div>
             </div>
           </article>
-          {/* ======================================================
-               GAME CARD
-               Catalog preview for 7 Wonders; metadata and actions share a reusable structure.
-               Future React component: <GameCard />.
-          ======================================================= */}
+
           <article className="game-card">
             <a className="game-card__cover" href="game-details.html" aria-label="View 7 Wonders details"><img className="game-card__image" src="assets/images/wonders.svg" alt="Illustrated 7 Wonders cover" width="600" height="600" loading="lazy" /></a>
             <div className="game-card__body">
@@ -309,11 +256,7 @@ export default function MyVault() {
           </article>
         </div>
       </section>
-      {/* ======================================================
-           EMPTY COLLECTION DEMONSTRATION
-           Expandable preview for members before their first collection addition.
-           Future React component: <EmptyState />.
-      ======================================================= */}
+
       <details className="state-preview">
         <summary>
           First-visit collection state
