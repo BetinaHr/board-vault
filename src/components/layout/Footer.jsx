@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import vaultIcon from '../../assets/icons/vault.svg'
 
 export default function Footer() {
@@ -11,9 +12,10 @@ export default function Footer() {
                     A good game brings people together.
                 </p>
                 <nav aria-label="Footer">
-                    <a href="index.html">Discover</a>
-                    <a href="catalog.html">Catalog</a>
-                    <a href="my-vault.html">My Vault</a>
+
+                    <Link to="/">Home</Link>
+                    <Link to="/catalog">Catalog</Link>
+                    <Link to="/my-vault">My Vault</Link>
                 </nav>
                 <small>© 2026 Board Vault</small>
             </div>

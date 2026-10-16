@@ -6,9 +6,9 @@ export default function Header({ user, onLogout }) {
     return (
         <header className="site-header">
             <div className="container header-layout">
-                <a className="brand" href="/"><img src={vaultIcon} width="36" height="36"
+                <Link className="brand" to="/"><img src={vaultIcon} width="36" height="36"
                     alt="" /><span>Board<span className="brand__accent">Vault</span></span>
-                </a>
+                </Link>
 
                 <Navigation user = {user}/>
 

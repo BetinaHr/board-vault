@@ -5,7 +5,7 @@ import Footer from './components/layout/Footer.jsx'
 import { Routes, Route } from 'react-router';
 import Catalog from './components/Catalog/Catalog.jsx';
 import Home from './components/Home/Home.jsx';
-import NotFound from './components/NotFound';
+import NotFound from './components/shared/NotFound.jsx';
 import GameDetails from './components/GameDetails/GameDetails.jsx';
 import MyVault from './components/Vault/Vault.jsx';
 import Login from './components/auth/Login.jsx';
