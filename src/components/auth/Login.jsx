@@ -18,7 +18,7 @@ export default function Login({ onLogin }) {
 
         try {
             const result = await authService.login(email, password);
-            onLogin(result.user);
+            onLogin(result);
             navigate('/');
             
 

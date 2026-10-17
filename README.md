@@ -1,157 +1,115 @@
 ﻿# Board Vault
 
-Board Vault is a board game discovery and personal collection application built as a React exam project.
+A board game catalog built with React, Vite, React Router and Supabase for my React exam project.
 
-**Status:** Work in progress. Home, Catalog, and a fallback page are implemented as static interfaces. Authentication, backend integration, and collection management are pending.
+The project is still in development. The frontend is not deployed yet.
 
-**Deployed frontend:** Not deployed yet.
-
-## Installation and running
+## Run locally
 
 ```sh
 npm install
+```
+
+```sh
 npm run dev
 ```
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start the development server |
-| `npm run build` | Create the production build in `dist/` |
-| `npm run preview` | Preview the production build after building |
-| `npm run lint` | Run ESLint |
+Other commands:
 
-## Technology and architecture
+- `npm run build` - build the app.
+- `npm run preview` - preview the build.
+- `npm run lint` - check the code with ESLint.
 
-The frontend uses React 19, React Router, Vite, and external CSS. ESLint is configured for code checks.
+## Project structure
 
-```text
-src/
-  assets/
-    icons/                 
-    images/                SVG game artwork
-  components/
-    Header.jsx
-    Navigation.jsx
-    Footer.jsx
-    Home.jsx
-    FeaturedGame.jsx
-    DiscoveryFilters.jsx
-    DiscoverGames.jsx
-    CollectionInvitation.jsx
-    Catalog.jsx
-    NotFound.jsx
-    GameCard.jsx
-  App.jsx                  Shared layout and routes
-  App.css                  Global and component styling
-  index.css                Additional global stylesheet
-  main.jsx                 Entry point and BrowserRouter
-```
-
-`main.jsx` wraps the application in `BrowserRouter`. `App` renders the shared header, one `<main>` containing the selected page, and the footer. Page components return their content without another `<main>`. `Home` composes the featured game, filters, game previews, and collection invitation. SVG assets are imported from `src/assets` for Vite to process.
+- `src/components/` - pages, shared components and layout.
+- `src/services/` - game and authentication requests.
+- `src/utils/request.js` - shared fetch helper.
+- `src/assets/` - images and icons.
+- `src/App.jsx` - routes and current authentication state.
+- `src/App.css` and `src/index.css` - styles.
 
 ## Functional Guide
 
-This guide follows the supplied exam template. Pending items describe the current development status, not completed features.
-
 ### 1. Project overview
 
-- **Application name:** Board Vault
-- **Category:** Board game catalog and personal collection manager
-- **Purpose:** Help visitors discover board games and compare categories, ratings, player counts, and play times. The planned application will let registered users manage game records and curate a personal vault.
+Board Vault lets visitors browse board games and view their details. Personal collections and game management are still being built.
 
 ### 2. User access and permissions
 
-**Current:** All implemented routes are public. Game previews are static. The visible account controls are placeholders; there is no authenticated session.
-
-**Planned:** Guests can browse Catalog and Details. Authenticated users can create records and access their vault. Only a record's author can edit or delete it. Access restrictions are not implemented yet.
+Guests can browse Home, Catalog and game details. The navigation shows My Vault, Add Game and Logout when a user is signed in. Route guards are not implemented yet, so hiding these links does not prevent direct access.
 
 ### 3. Authentication and session handling
 
-Not implemented. There is no authentication check on load, registration/login/logout flow, or session persistence. The backend and session storage strategy remain to be selected. Document the actual authentication flow, logout behavior, and automatic session restoration after refresh when implemented.
+Register, Login and Logout use Supabase Auth. Registration stores the username in user metadata and checks that the passwords match.
+
+The user and access token are kept in React state. Logout calls Supabase and clears the user state. Session restoration, token refresh and clearing the stored access token on logout still need to be added. Refreshing the page currently resets the local authentication state.
 
 ### 4. Routing structure
 
-| Route | Component | Access |
-| --- | --- | --- |
-| `/` | `Home` | Public |
-| `/catalog` | `Catalog` | Public |
-| `*` | `NotFound` | Unmatched-route fallback |
+| Route | Page |
+| --- | --- |
+| `/` | Home |
+| `/catalog` | Catalog |
+| `/game-details/:gameId` | Game details |
+| `/login` | Login |
+| `/register` | Register |
+| `/my-vault` | My Vault, currently a static preview |
+| `/create-game` | Create Game, currently a form without saving |
+| `*` | Not Found |
 
-Primary navigation uses React Router `Link`. Some other links still target `.html` paths and need conversion as their routes are implemented. `/my-vault` and `/create-game` appear in navigation but have no matching page routes yet.
-
-No route guards, nested route definitions, or parameterized routes are implemented. Planned pages include game details and editing with a game ID, creation, login, registration, and a personal vault. The exam requires at least five pages, at least two routes with URL parameters, and three dynamic pages; the current static views do not yet meet these requirements.
+Some older links still need to be changed to React Router links. A second route with a URL parameter is also still needed.
 
 ### 5. List to details flow
 
-Home shows hardcoded game previews with artwork, names, categories, ratings, descriptions, player counts, and play times. Catalog has search, filter, and sorting controls, but their behavior is not implemented. Details links currently use static HTML targets; no details route or parameter-based record lookup exists yet.
+Home and Catalog load games from Supabase and use a shared GameCard component. Home supports category filtering, and Catalog supports searching by title. The other Catalog filters and sorting are not connected yet.
 
-The planned flow is to fetch games from the backend, render reusable cards, and navigate to a selected game's details using its ID.
+The View Details button opens a page using the game ID. That page fetches the selected game. Some content on the details page is still hardcoded.
 
 ### 6. Data source and backend
 
-No backend or remote requests are implemented. Game content is hardcoded for layout development and must be replaced with persisted remote data for the exam.
-
-The backend provider has not been selected. The final application needs a publicly reachable backend with persistent data and a deployed frontend. A hosted backend service or a separately deployed custom API can satisfy this requirement. Record the chosen service, setup instructions, and any required environment variables here when configured.
+Supabase provides the database and authentication. The app uses fetch requests to the REST API. Game requests are in `gameService.js`, and authentication requests are in `authService.js`.
 
 ### 7. Data operations (CRUD)
 
-The intended non-user collection is **games**.
+Reading games is implemented. Creating, editing and deleting games are not implemented yet. The games table has an owner_id linked to a Supabase user. Ownership checks and database policies for writes still need to be completed and tested.
 
-| Operation | Planned behavior | Current status |
-| --- | --- | --- |
-| Create | Authenticated users create game records | Pending |
-| Read | Fetch records for Catalog and Details | Static content only |
-| Update | Authors edit their own records | Pending |
-| Delete | Authors delete their own records | Pending |
-
-API calls, ownership enforcement, and UI refresh after changes are pending. An additional API-backed interaction, such as favorites, is planned. Document the actual requests and state updates when implemented.
+My Vault, comments and favorites are not connected to the API yet.
 
 ### 8. Forms and validation
 
-Planned validation examples, subject to the final data model:
+Login and Register read values with FormData. Required fields, email inputs and a password confirmation check provide basic validation. Authentication errors are shown with alerts.
 
-- Email: required and valid email format.
-- Password: required with a defined minimum length.
-- Game title: required, trimmed, and checked against defined length limits.
-- Player counts: positive integers, with maximum players at least equal to minimum players.
+Catalog search uses a controlled input. The authentication and game forms still need controlled inputs, more validation and submission loading states.
 
 ### 9. React-specific techniques
 
-**Components:** Shared layout and page sections are extracted into components. `GameCard.jsx` exists, but `DiscoverGames` still contains the individual cards directly; making the card reusable through props is pending.
+The app uses reusable components, props, useState and useEffect. Effects fetch games when pages load and fetch details when the game ID changes. React Router handles navigation and URL parameters.
 
-**Hooks and lifecycle:** Application state hooks and mount/update/unmount examples are pending.
-
-**Context API:** No Context state is implemented. Sharing authentication/session state is planned.
-
-**Styling:** External `App.css` and `index.css` files provide styling. `App.css` contains shared variables, resets, layout rules, component classes, and responsive styles. Separate CSS files per component are optional.
+Authentication state is currently passed through props. Context API and effect cleanup still need to be added. Styling uses external CSS files.
 
 ### 10. Typical user flow
 
-Current flow:
+1. Browse games on Home or Catalog.
+2. Search by title or filter Home games by category.
+3. Open a game using View Details.
+4. Register or log in.
+5. Log out from the header.
 
-1. Open Home to see the featured game and static previews.
-2. Use the Catalog navigation link to open Catalog.
-3. Open an unmatched route to see the fallback page.
-
-Planned complete flow:
-
-1. Browse/filter remotely loaded games.
-2. Open a game's details.
-3. Register or log in.
-4. Create a record or interact with an existing game through the API.
-5. Edit/delete an owned record and log out.
+Creating games and managing a personal vault will be added next.
 
 ### 11. Error and edge case handling
 
-An unmatched-route page is implemented. Authentication errors, network errors, loading states, empty results, and missing game records are pending. These need visible feedback when the corresponding features are added.
+Game requests have loading and error states. Home shows a message when no games match the selected category. Details handles missing games, and unknown routes show the Not Found page.
 
-## Remaining submission requirements
+Error messages, retry buttons and empty states still need improvements.
 
-- Replace hardcoded data with remote, persistent data.
-- Implement the required dynamic pages, parameterized routes, and route guards.
-- Add authentication, session persistence, and shared Context state.
-- Implement game CRUD with author-only edit/delete and an API-backed user interaction.
-- Add controlled forms, validation, loading/error states, and hook lifecycle examples.
-- Deploy the frontend and backend, and add the frontend URL above.
-- Complete this Functional Guide with the finished behavior and backend setup.
-- Submit a public GitHub repository with at least five meaningful commits spread across at least three different days.
+## Still to do
+
+- Finish session handling and add Auth Context.
+- Add private and guest-only route guards.
+- Implement game creation, editing and deletion.
+- Connect My Vault to the signed-in user's games.
+- Add an API interaction, such as comments or favorites.
+- Finish form validation and remove remaining static content.
+- Deploy the frontend and update this guide.

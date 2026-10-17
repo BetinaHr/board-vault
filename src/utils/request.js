@@ -1,7 +1,7 @@
 const baseUrl = import.meta.env.VITE_SUPABASE_URL
 const apiKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
-export default async function request(path="/", method = 'GET', data = null) {
+export default async function request(path = "/", method = 'GET', data = null, accessToken = null) {
     const options = {
         method,
         headers: {
@@ -18,10 +18,19 @@ export default async function request(path="/", method = 'GET', data = null) {
     // if(data) {
     //     options.body = JSON.stringify(data);
     // }
+
+    if (accessToken) {
+        options.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
     
     const response = await fetch(baseUrl + path, options);
-
-    if(!response.ok) { 
+    
+    if (response.status === 204) {
+        return null;
+    }
+    
+    if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     return response.json();

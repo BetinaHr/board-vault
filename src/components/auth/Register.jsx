@@ -30,11 +30,12 @@ export default function Register({ onRegister },) {
 
             // Pass the whole user to App.jsx
             if (result.access_token) {
-                onRegister(result.user);
+                onRegister(result);
                 console.log("Login successful")
             } else {
                 alert('Check your email to confirm your account.');
             }
+
         } catch (error) {
             alert(error.message);
         }

@@ -15,3 +15,7 @@ export function login( email, password ) {
         password,
     })
 }
+
+export function logout(accessToken) {
+    return request('/auth/v1/logout?scope=local', 'POST', null, accessToken)
+}
