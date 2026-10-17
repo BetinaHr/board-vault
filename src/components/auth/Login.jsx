@@ -2,9 +2,11 @@ import { Link, useNavigate } from 'react-router';
 import azulImage from '../../assets/images/azul.svg';
 import wingspanImage from '../../assets/images/wingspan.svg';
 import * as authService from '../../services/authService.js';
+import useAuth from '../../hooks/useAuth.js';
 
-export default function Login({ onLogin }) {
+export default function Login() {
     const navigate = useNavigate();
+     const { onAuthenticate } = useAuth();
 
     const loginAction = async (formData) => {
         const email = formData.get("email");
@@ -18,7 +20,7 @@ export default function Login({ onLogin }) {
 
         try {
             const result = await authService.login(email, password);
-            onLogin(result);
+            onAuthenticate(result);
             navigate('/');
             
 

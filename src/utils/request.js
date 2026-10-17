@@ -23,15 +23,17 @@ export default async function request(path = "/", method = 'GET', data = null, a
         options.headers.Authorization = `Bearer ${accessToken}`;
     }
 
-    
+
     const response = await fetch(baseUrl + path, options);
-    
+
     if (response.status === 204) {
         return null;
     }
-    
+
     if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
-    return response.json();
+    
+    const text = await response.text();
+    return text ? JSON.parse(text) : null;
 }

@@ -1,11 +1,13 @@
-import { Link } from 'react-router';
-import azulImage from '../../assets/images/azul.svg';
 import wingspanImage from '../../assets/images/wingspan.svg';
-import * as authService from '../../services/authService.js';
+import azulImage from '../../assets/images/azul.svg';
+import { Link } from 'react-router';
+import useAuth from '../../hooks/useAuth.js';
 import { useState } from 'react';
+import * as authService from '../../services/authService.js';
 
-export default function Register({ onRegister },) {
+export default function Register() {
     const [passwordMismatch, setPasswordMismatch] = useState(false);
+    const { onAuthenticate } = useAuth();
 
     const registerAction = async (formData) => {
         const username = formData.get("username");
@@ -30,7 +32,7 @@ export default function Register({ onRegister },) {
 
             // Pass the whole user to App.jsx
             if (result.access_token) {
-                onRegister(result);
+                onAuthenticate(result);
                 console.log("Login successful")
             } else {
                 alert('Check your email to confirm your account.');

@@ -14,3 +14,7 @@ export async function getById(gameId) {
     // returns the first game or null if there isn't a matching game
     return games[0] ?? null
 }
+
+export function create(gameData, accessToken) {
+    return request(basePath, 'POST', gameData, accessToken);
+}

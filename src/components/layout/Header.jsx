@@ -1,8 +1,20 @@
 import vaultIcon from '../../assets/icons/vault.svg'
 import Navigation from './Navigation'
 import { Link } from 'react-router';
+import useAuth from '../../hooks/useAuth.js';
 
-export default function Header({ user, onLogout }) {
+
+export default function Header() {
+    const { user, onLogout } = useAuth();
+
+    const handleLogout = async () => {
+        try {
+            await onLogout();
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
     return (
         <header className="site-header">
             <div className="container header-layout">
@@ -10,7 +22,7 @@ export default function Header({ user, onLogout }) {
                     alt="" /><span>Board<span className="brand__accent">Vault</span></span>
                 </Link>
 
-                <Navigation user = {user}/>
+                <Navigation user={user} />
 
                 <div className="header-search">
                     <label className="visually-hidden" htmlFor="header-search">Search board games</label>
@@ -21,7 +33,7 @@ export default function Header({ user, onLogout }) {
                     {/* AUTHENTICATED USERS ONLY */}
                     <a className="avatar" href="profile.html" aria-label="Alex Morgan's profile">AM</a>
                     {user ? (
-                        <button className="button button--text" type="button" onClick={onLogout}>Logout</button>
+                        <button className="button button--text" type="button" onClick={handleLogout}>Logout</button>
                     ) : (
                         <>
                             <Link className="button button--text" to="/login">Login</Link>

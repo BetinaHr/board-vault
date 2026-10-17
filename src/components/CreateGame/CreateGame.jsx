@@ -1,6 +1,52 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import * as gameService from '../../services/gameService.js';
+import useAuth from '../../hooks/useAuth.js';
 
 export default function CreateGame() {
+    const { accessToken } = useAuth();
+    const navigate = useNavigate();
+
+    const createAction = async (formData) => {
+        const title = formData.get("game-title");
+        const description = formData.get("description");
+        const story = formData.get("story");
+        const imageUrl = formData.get("image-url");
+        const year = formData.get("release_year");
+        const designer = formData.get("designer");
+
+        const minPlayers = Number(formData.get('min-players'));
+        const maxPlayers = Number(formData.get('max-players'));
+
+        const minPlaytime = Number(formData.get('min-playtime'));
+        const maxPlaytime = Number(formData.get('max-playtime'));
+
+        const category = formData.get('game-category');
+        const difficulty = Number(formData.get('difficulty'));
+
+        const gameData = {
+            title: title.trim(),
+            description: description.trim(),
+            story: story.trim(),
+            image_url: imageUrl.trim(),
+            release_year: year ? Number(year) : null,
+            designer: designer.trim(),
+            min_players: minPlayers,
+            max_players: maxPlayers,
+            min_playtime: minPlaytime,
+            max_playtime: maxPlaytime,
+            category,
+            difficulty,
+        };
+
+        try {
+            await gameService.create(gameData, accessToken);
+            navigate("/my-vault");
+        } catch (error) {
+            alert(error.message);
+        }
+
+    }
+
     return (
         <>
             <div className="page-heading">
@@ -11,7 +57,7 @@ export default function CreateGame() {
             </div>
 
             <div className="editor-layout">
-                <form className="game-form surface">
+                <form className="game-form surface" action={createAction}>
                     <div className="form-section">
                         <div className="form-section__heading">
                             <span className="step-number">01</span>
@@ -22,7 +68,7 @@ export default function CreateGame() {
                         </div>
 
                         <div className="form-group">
-                            <label className="form-label" htmlFor="game-title">
+                            <label className="form-label">
                                 Game title{' '}
                                 <span className="required" aria-hidden="true">*</span>
                             </label>
@@ -36,13 +82,14 @@ export default function CreateGame() {
                                 maxLength={100}
                                 aria-describedby="game-title-help"
                             />
+
                             <p className="form-helper" id="game-title-help">
                                 Please enter a title between 3 and 100 characters.
                             </p>
                         </div>
 
                         <div className="form-group">
-                            <label className="form-label" htmlFor="description">
+                            <label className="form-label">
                                 Description{' '}
                                 <span className="required" aria-hidden="true">*</span>
                             </label>
@@ -54,13 +101,27 @@ export default function CreateGame() {
                                 required
                                 aria-describedby="description-help"
                             />
+
                             <p className="form-helper" id="description-help">
                                 Describe the experience, theme, and what makes the game stand out.
                             </p>
                         </div>
 
                         <div className="form-group">
-                            <label className="form-label" htmlFor="image-url">
+                            <label className="form-label">
+                                Story
+                            </label>
+                            <textarea
+                                className="form-input"
+                                id="story"
+                                name="story"
+                                rows={6}
+                                placeholder="Share the story or background of the game."
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">
                                 Image URL{' '}
                                 <span className="required" aria-hidden="true">*</span>
                             </label>
@@ -79,15 +140,17 @@ export default function CreateGame() {
 
                         <div className="form-grid">
                             <div className="form-group">
-                                <label className="form-label" htmlFor="year">
+                                <label className="form-label">
                                     Year published
                                 </label>
                                 <input
                                     className="form-input"
-                                    id="year"
-                                    name="year"
+                                    id="release-year"
+                                    name="release_year"
                                     type="number"
-                                    min={1}
+                                    min={1900}
+                                    max={2026}
+                                    placeholder="2026"
                                 />
                             </div>
 
@@ -104,7 +167,7 @@ export default function CreateGame() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="publisher">
+                                <label className="form-label">
                                     Publisher
                                 </label>
                                 <input
@@ -128,7 +191,7 @@ export default function CreateGame() {
 
                         <div className="form-grid form-grid--two">
                             <div className="form-group">
-                                <label className="form-label" htmlFor="min-players">
+                                <label className="form-label">
                                     Minimum players{' '}
                                     <span className="required" aria-hidden="true">*</span>
                                 </label>
@@ -143,7 +206,7 @@ export default function CreateGame() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="max-players">
+                                <label className="form-label">
                                     Maximum players{' '}
                                     <span className="required" aria-hidden="true">*</span>
                                 </label>
@@ -162,14 +225,14 @@ export default function CreateGame() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="playing-time">
+                                <label className="form-label">
                                     Maximum play time (minutes){' '}
                                     <span className="required" aria-hidden="true">*</span>
                                 </label>
                                 <input
                                     className="form-input"
-                                    id="playing-time"
-                                    name="playing-time"
+                                    id="max-playtime"
+                                    name="max-playtime"
                                     type="number"
                                     required
                                     min={1}
@@ -181,20 +244,21 @@ export default function CreateGame() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="min-age">
+                                <label className="form-label">
                                     Minimum play time
                                 </label>
                                 <input
                                     className="form-input"
-                                    id="min-age"
-                                    name="min-age"
+                                    id="min-playtime"
+                                    name="min-playtime"
                                     type="number"
                                     min={1}
+                                    required
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="game-category">
+                                <label className="form-label" >
                                     Category
                                 </label>
                                 <select
@@ -214,20 +278,20 @@ export default function CreateGame() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="difficulty">
-                                    Difficulty
+
+
+                                <label className="form-label">
+                                    Difficulty (1–5)
                                 </label>
-                                <select
+                                <input
                                     className="form-input"
                                     id="difficulty"
                                     name="difficulty"
-                                    defaultValue=""
-                                >
-                                    <option value="" disabled>Select difficulty</option>
-                                    <option value="Light">Light</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Heavy">Heavy</option>
-                                </select>
+                                    type="number"
+                                    min={1}
+                                    max={5}
+                                    step={0.1}
+                                />
                             </div>
                         </div>
                     </div>
@@ -236,7 +300,7 @@ export default function CreateGame() {
                         <Link className="button button--secondary" to="/catalog">
                             Cancel
                         </Link>
-                        <button className="button button--primary" type="button">
+                        <button className="button button--primary" type="submit" >
                             Create Game
                         </button>
                     </div>
