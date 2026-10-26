@@ -1,17 +1,27 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import useAuth from '../../hooks/useAuth.js';
-import GameCard from '../shared/GameCard.jsx';
+import * as likeService from '../../services/likeService.js';
 import * as gameService from '../../services/gameService.js';
+import VaultStats from './VaultStats.jsx';
+import VaultFilters from './VaultFilters.jsx';
+import VaultCollection from './VaultCollection.jsx';
 
 export default function MyVault() {
     const { user, accessToken } = useAuth();
     const userId = user?.id;
 
     const [result, setResult] = useState(null);
+    const [filter, setFilter] = useState('all');
 
-    const loading = result?.userId !== userId;
-    const games = loading ? [] : result.games;
+    const loading =
+        !result ||
+        result.userId !== userId ||
+        result.accessToken !== accessToken;
+
+    const ownedGames = loading ? [] : result.ownedGames;
+    const likedGames = loading ? [] : result.likedGames;
+
     const error = loading ? null : result.error;
 
     useEffect(() => {
@@ -19,17 +29,28 @@ export default function MyVault() {
 
         let ignore = false;
 
-        gameService.getOwned(userId, accessToken)
-            .then(games => {
+        Promise.all([
+            gameService.getOwned(userId, accessToken),
+            likeService.getLikedGames(accessToken),
+        ])
+            .then(([ownedGames, likedGames]) => {
                 if (!ignore) {
-                    setResult({ userId, games, error: null });
+                    setResult({
+                        userId,
+                        accessToken,
+                        ownedGames,
+                        likedGames,
+                        error: null,
+                    });
                 }
             })
             .catch(error => {
                 if (!ignore) {
                     setResult({
                         userId,
-                        games: [],
+                        accessToken,
+                        ownedGames: [],
+                        likedGames: [],
                         error: error.message,
                     });
                 }
@@ -39,6 +60,43 @@ export default function MyVault() {
             ignore = true;
         };
     }, [userId, accessToken]);
+
+    const allGames = [
+        ...new Map(
+            [...ownedGames, ...likedGames].map(game => [game.id, game])
+        ).values(),
+    ];
+
+    const gamesByFilter = {
+        all: allGames,
+        owned: ownedGames,
+        liked: likedGames,
+    };
+
+    const visibleGames = gamesByFilter[filter];
+
+    const handleLikeChange = (game, liked) => {
+        setResult(current => {
+            if (
+                !current ||
+                current.userId !== userId ||
+                current.accessToken !== accessToken
+            ) {
+                return current;
+            }
+
+            const remainingLikes = current.likedGames.filter(
+                item => item.id !== game.id
+            );
+
+            return {
+                ...current,
+                likedGames: liked
+                    ? [...remainingLikes, game]
+                    : remainingLikes,
+            };
+        });
+    };
 
     if (!user) {
         return (
@@ -51,7 +109,6 @@ export default function MyVault() {
     return (
         <>
             <a className="skip-link" href="#main-content">Skip to content</a>
-            {/* <PageHeading />.*/}
             <div className="page-heading">
                 <div>
                     <p className="eyebrow">
@@ -64,113 +121,35 @@ export default function MyVault() {
                         Your personal board game collection. Every box has a story.
                     </p>
                 </div>
-                <a className="button button--primary" href="create-game.html">+ Add Game</a>
+                <Link className="button button--primary" to="/create-game"> + Add Game </Link>
             </div>
-            {/* <CollectionStats />*/}
-            <dl className="profile-stats">
-                <div>
-                    <dt>
-                        Games
-                    </dt>
-                    <dd>
-                        24
-                    </dd>
-                </div>
-                <div>
-                    <dt>
-                        Played
-                    </dt>
-                    <dd>
-                        12
-                    </dd>
-                </div>
-                <div>
-                    <dt>
-                        Favorites
-                    </dt>
-                    <dd>
-                        8
-                    </dd>
-                </div>
-                <div>
-                    <dt>
-                        Wishlist
-                    </dt>
-                    <dd>
-                        4
-                    </dd>
-                </div>
-            </dl>
-            {/* <VaultFilters /> */}
-            <section className="vault-filters" aria-label="Filter your collection">
-                <div className="chip-list">
-                    <button type="button" className="chip is-active" aria-pressed="true">All</button>
-                    <button type="button" className="chip" aria-pressed="false">Owned</button>
-                    <button type="button" className="chip" aria-pressed="false">Favorites</button>
-                    <button type="button" className="chip" aria-pressed="false">Wishlist</button>
-                    <button type="button" className="chip" aria-pressed="false">Played</button>
-                </div>
-                <span className="muted">8 highlights from your vault</span>
-            </section>
-            {/* <VaultCollection /> */}
-            <section aria-labelledby="vault-games">
-                <h2 id="vault-games" className="visually-hidden">
-                    Games in your vault
-                </h2>
 
-                {loading ? (
-                    <p>Loading your games...</p>
-                ) : error ? (
-                    <p role="alert">{error}</p>
-                ) : games.length > 0 ? (
-                    <div className="game-grid">
-                        {games.map(game => (
-                            <GameCard key={game.id} game={game} />
-                        ))}
-                    </div>
-                ) : (
-                    <section className="empty-state">
-                        <span className="empty-state__symbol" aria-hidden="true">
-                            ◇
-                        </span>
+            {loading ? (
+                <p>Loading your vault...</p>
+            ) : error ? (
+                <p role="alert">{error}</p>
+            ) : (
+                <>
+                    <VaultStats
+                        total={allGames.length}
+                        owned={ownedGames.length}
+                        liked={likedGames.length}
+                    />
 
-                        <p className="eyebrow">A fresh start</p>
-                        <h2>Your vault is empty</h2>
+                    <VaultFilters
+                        filter={filter}
+                        onFilterChange={setFilter}
+                        count={visibleGames.length}
+                    />
 
-                        <p>
-                            You haven't added any board games yet.
-                            <br />
-                            Add your first game to start your collection.
-                        </p>
-
-                        <Link
-                            className="button button--primary"
-                            to="/create-game"
-                        >
-                            + Add Game
-                        </Link>
-                    </section>
-                )}
-            </section>
-{/* 
-            <details className="state-preview">
-                <summary>
-                    First-visit collection state
-                </summary>
-                <section className="empty-state">
-                    <span className="empty-state__symbol" aria-hidden="true">◇</span>
-                    <p className="eyebrow">
-                        A fresh start
-                    </p>
-                    <h2>
-                        Your vault is empty
-                    </h2>
-                    <p>
-                        You haven't added any board games yet.<br />Find something you'll want to bring to the table.
-                    </p>
-                    <a className="button button--primary" href="catalog.html">Explore Games →</a>
-                </section>
-            </details> */}
+                    <VaultCollection
+                        games={visibleGames}
+                        filter={filter}
+                        vaultIsEmpty={allGames.length === 0}
+                        onLikeChange={handleLikeChange}
+                    />
+                </>
+            )}
 
         </>
     );

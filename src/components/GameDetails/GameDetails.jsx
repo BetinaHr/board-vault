@@ -113,11 +113,6 @@ export default function GameDetails() {
                             </dd>
                         </div> */}
                     </dl>
-                    {/* AUTHENTICATED USERS ONLY */}
-                    {/* <div className="button-row">
-                        <button className="button button--primary" type="button">+ Add to Vault</button>
-                        <button className="button button--secondary" type="button" aria-pressed="false">♡ Favorite</button>
-                    </div> */}
 
                     {isOwner && (
                         <div className="button-row">
@@ -136,6 +131,10 @@ export default function GameDetails() {
                             >
                                 {deleting ? 'Deleting...' : 'Delete game'}
                             </button>
+
+                            {deleteError && (
+                                <p role="alert">{deleteError}</p>
+                            )}
                         </div>
                     )}
                 </div>
@@ -190,8 +189,6 @@ export default function GameDetails() {
                             </article>
                             {/* ======================================================
                    COMMUNITY COMMENT
-                   A second member’s perspective on the game.
-                   Future React component: <Comment />.
               ======================================================= */}
                             <article className="comment-card">
                                 <span className="avatar avatar--sage" aria-hidden="true">MR</span>

@@ -20,7 +20,7 @@ export default function EditGame() {
 
     useEffect(() => {
 
-        // prevents an outdated request from updating the component’s state
+        // Prevents an outdated request from updating the component’s state
         // like opening a game and switching to another before it finishes loading
         let ignore = false;
 

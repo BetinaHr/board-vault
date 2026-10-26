@@ -1,6 +1,8 @@
 import { NavLink } from "react-router";
+import LikeButton from './LikeButton.jsx';
 
-export default function GameCard({ game }) {
+
+export default function GameCard({ game, onLikeChange }) {
     return (
 
         <article className="game-card">
@@ -36,12 +38,9 @@ export default function GameCard({ game }) {
                 </div>
 
                 <div className="game-card__actions">
-                    {/* TODO: Implement dynamic game details view */}
                     <NavLink className="button button--secondary button--small" to={`/game-details/${game.id}`}>View details</NavLink>
                     {/* <a className="button button--secondary button--small" href="game-details.html">View details</a> */}
-                    <button className="favorite-button" type="button" aria-label={`Add ${game.title} to favorites`} aria-pressed="false">
-                        ♡
-                    </button>
+                    <LikeButton game={game} onLikeChange={onLikeChange} />
                 </div>
             </div>
         </article>
