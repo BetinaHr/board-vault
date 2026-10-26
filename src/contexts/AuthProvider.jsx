@@ -24,10 +24,14 @@ export default function AuthProvider({ children }) {
     };
 
     const onLogout = async () => {
-        await authService.logout(session.access_token);
+        try {
+            await authService.logout(session.access_token);
 
-        localStorage.removeItem('board-vault-session');
-        setSession(null);
+        } finally {
+            localStorage.removeItem('board-vault-session');
+            setSession(null);
+        }
+
     };
 
     return (

@@ -1,12 +1,13 @@
 const baseUrl = import.meta.env.VITE_SUPABASE_URL
 const apiKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
-export default async function request(path = "/", method = 'GET', data = null, accessToken = null) {
+export default async function request(path = "/", method = 'GET', data = null, accessToken = null, extraHeaders = {}) {
     const options = {
         method,
         headers: {
             apikey: apiKey,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            ...extraHeaders,
         },
         body: data ? JSON.stringify(data) : null,
     }

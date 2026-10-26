@@ -1,18 +1,30 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import * as gameService from '../../services/gameService.js'
+import useAuth from '../../hooks/useAuth.js';
 
 
 export default function GameDetails() {
     // ID params from the URL
     const { gameId } = useParams();
+    const navigate = useNavigate();
+
+    // User state
+    const { user, accessToken } = useAuth();
+
+    // Saves the game data fetched from the API
+    const [game, setGame] = useState(null);
 
     // Status handling for the API request: loading, error, and game data.
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Saves the game data fetched from the API
-    const [game, setGame] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+    const [deleteError, setDeleteError] = useState(null);
+
+    // Only the owner of the game should be able to delete it
+    // Compares the logged-in user’s ID with the creator’s ID stored on the game.
+    const isOwner = Boolean(user && game && user.id === game.owner_id);
 
     useEffect(() => {
         gameService.getById(gameId)
@@ -20,6 +32,27 @@ export default function GameDetails() {
             .catch(error => setError(error))
             .finally(() => setLoading(false));
     }, [gameId]);
+
+    const deleteHandler = async () => {
+        if (!isOwner || !accessToken || deleting) return;
+
+        const confirmed = window.confirm(
+            `Are you sure you want to delete "${game.title}"?`
+        );
+
+        if (!confirmed) return;
+
+        setDeleting(true);
+        setDeleteError(null);
+
+        try {
+            await gameService.remove(gameId, accessToken);
+            navigate('/catalog');
+        } catch (error) {
+            setDeleteError(error.message);
+            setDeleting(false);
+        }
+    };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p role="alert">{error.message}</p>;
@@ -32,9 +65,6 @@ export default function GameDetails() {
                     <img src={game.image_url} alt={`Illustrated ${game.title} game cover`} width="600" height="600" /><span className="art-caption">A game as beautiful as the birds it celebrates.</span>
                 </div>
                 <div className="game-details__content">
-                    {/* <p className="eyebrow">
-                        A modern classic
-                    </p> */}
                     <div className="details-title">
                         <h1 id="game-title">
                             {game.title}
@@ -83,24 +113,35 @@ export default function GameDetails() {
                             </dd>
                         </div> */}
                     </dl>
-                    {/* AUTHENTICATED USERS ONLY: collection and favorite actions require login. */}
+                    {/* AUTHENTICATED USERS ONLY */}
                     {/* <div className="button-row">
                         <button className="button button--primary" type="button">+ Add to Vault</button>
                         <button className="button button--secondary" type="button" aria-pressed="false">♡ Favorite</button>
                     </div> */}
-                    {/* RECORD OWNER ONLY: render Edit/Delete only if the current user created this record. */}
-                    {/* <div className="owner-actions">
-                        <span>Added by you</span><a href="edit-game.html">Edit game</a>
-                        <a className="danger-link" href="edit-game.html#delete-confirmation">Delete game</a>
-                    </div> */}
+
+                    {isOwner && (
+                        <div className="owner-actions">
+                            <h2>Added by you</h2>
+
+                            <button
+                                className="button button--danger-outline button--small"
+                                type="button"
+                                onClick={deleteHandler}
+                                disabled={deleting}
+                            >
+                                {deleting ? 'Deleting...' : 'Delete game'}
+                            </button>
+
+                            {deleteError && (
+                                <p role="alert">{deleteError}</p>
+                            )}
+                        </div>
+                    )}
                 </div>
             </section>
             <div className="details-layout">
                 <div>
-                    {/*
-                    ABOUT THE GAME
-                    Future React component: <GameAbout />. 
-                    */}
+                    {/* Future React component: <GameAbout />. */}
                     <section className="surface section" aria-labelledby="about-title">
                         <p className="eyebrow">
                             The story behind the game
@@ -121,8 +162,6 @@ export default function GameDetails() {
                     </section>
                     {/* ======================================================
                COMMUNITY INTERACTION
-               Favorites, sample comments, and a visual comment composer.
-               Future React component: <CommentSection />.
           ======================================================= */}
                     <section className="surface section" aria-labelledby="community-title">
                         <div className="section-heading">
