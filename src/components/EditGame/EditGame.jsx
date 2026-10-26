@@ -19,6 +19,9 @@ export default function EditGame() {
     const error = loading ? null : result.error;
 
     useEffect(() => {
+
+        // prevents an outdated request from updating the component’s state
+        // like opening a game and switching to another before it finishes loading
         let ignore = false;
 
         gameService.getById(gameId)
@@ -41,7 +44,7 @@ export default function EditGame() {
             ignore = true;
         };
     }, [gameId]);
-    
+
     const editAction = async (formData) => {
         if (!user || user.id !== game?.owner_id || !accessToken || saving) {
             return;

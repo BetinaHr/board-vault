@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import * as gameService from '../../services/gameService.js';
 import useAuth from '../../hooks/useAuth.js';
 import GameForm from '../shared/GameForm.jsx';

@@ -49,7 +49,7 @@ export default function Catalog() {
             ) : (
                 <CatalogResults games={filteredGames} />
             )}
-            {/* API PRESENTATION STATES Expandable demonstrations of future loading and failure states. Future React component: <CatalogStates />. */}
+            {/* API PRESENTATION STATES - Future React component: <CatalogStates />. */}
             {/* <details className="state-preview">
                 <summary>
                     Collection loading &amp; connection states

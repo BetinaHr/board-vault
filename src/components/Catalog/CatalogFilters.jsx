@@ -1,7 +1,6 @@
 export default function CatalogFilters({ searchState, onSearchChange }) {
     return (
         <>
-            {/* CATALOG SEARCH AND FILTERS Visual search, filters, and sorting controls; Future React component: <FilterBar />. */}
             <section className="filter-panel" aria-label="Catalog filters">
                 <div className="catalog-search form-group">
                     <label htmlFor="catalog-search" className="form-label">

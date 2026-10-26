@@ -49,3 +49,10 @@ export async function remove(gameId, accessToken) {
 
     return deletedGames[0];
 }
+
+// FIND GAMES CREATED BY OWNER
+export function getOwned(userId, accessToken) {
+    return request(
+        `${basePath}?owner_id=eq.${encodeURIComponent(userId)}&select=*`, 'GET', null, accessToken
+    );
+}
