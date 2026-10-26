@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancelTo = '/catalog', initialValues={}}) {
+export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancelTo = '/catalog', initialValues = {} }) {
     return (
         <form className="game-form surface" action={onSubmit}>
             <div className="form-section">
@@ -144,6 +144,9 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             required
                             min={1}
                         />
+                        <p className="form-helper" id="max-players-help">
+                            Must be at least the minimum player count.
+                        </p>
                     </div>
 
                     <div className="form-group">
@@ -161,8 +164,24 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             min={1}
                             aria-describedby="max-players-help"
                         />
-                        <p className="form-helper" id="max-players-help">
-                            Must be at least the minimum player count.
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">
+                            Minimum play time
+                        </label>
+                        <input
+                            className="form-input"
+                            id="min-playtime"
+                            name="min-playtime"
+                            type="number"
+                            defaultValue={initialValues.min_playtime ?? ''}
+                            min={1}
+                            required
+                        />
+
+                        <p className="form-helper" id="playing-time-help">
+                            Approximate time for a single session.
                         </p>
                     </div>
 
@@ -181,24 +200,7 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             min={1}
                             aria-describedby="playing-time-help"
                         />
-                        <p className="form-helper" id="playing-time-help">
-                            Approximate time for a single session.
-                        </p>
-                    </div>
 
-                    <div className="form-group">
-                        <label className="form-label">
-                            Minimum play time
-                        </label>
-                        <input
-                            className="form-input"
-                            id="min-playtime"
-                            name="min-playtime"
-                            type="number"
-                            defaultValue={initialValues.min_playtime ?? ''}
-                            min={1}
-                            required
-                        />
                     </div>
 
                     <div className="form-group">
@@ -222,7 +224,6 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                     </div>
 
                     <div className="form-group">
-
 
                         <label className="form-label">
                             Difficulty (1–5)

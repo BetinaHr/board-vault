@@ -12,33 +12,36 @@ export default function EditGame() {
     const [saving, setSaving] = useState(false);
     const [saveError, setSaveError] = useState(null);
 
-    const [game, setGame] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [result, setResult] = useState(null);
+
+    const loading = result?.gameId !== gameId;
+    const game = loading ? null : result.game;
+    const error = loading ? null : result.error;
 
     useEffect(() => {
         let ignore = false;
 
-        setLoading(true);
-        setError(null);
-        setGame(null);
-
         gameService.getById(gameId)
             .then(game => {
-                if (!ignore) setGame(game);
+                if (!ignore) {
+                    setResult({ gameId, game, error: null });
+                }
             })
             .catch(error => {
-                if (!ignore) setError(error.message);
-            })
-            .finally(() => {
-                if (!ignore) setLoading(false);
+                if (!ignore) {
+                    setResult({
+                        gameId,
+                        game: null,
+                        error: error.message,
+                    });
+                }
             });
 
         return () => {
             ignore = true;
         };
     }, [gameId]);
-
+    
     const editAction = async (formData) => {
         if (!user || user.id !== game?.owner_id || !accessToken || saving) {
             return;
