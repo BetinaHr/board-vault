@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, useLocation } from 'react-router';
 import azulImage from '../../assets/images/azul.svg';
 import wingspanImage from '../../assets/images/wingspan.svg';
 import * as authService from '../../services/authService.js';
@@ -6,14 +6,18 @@ import useAuth from '../../hooks/useAuth.js';
 
 export default function Login() {
     const navigate = useNavigate();
-     const { onAuthenticate } = useAuth();
+
+    const location = useLocation();
+    const redirectTo = location.state?.from || '/catalog';
+
+    const { onAuthenticate } = useAuth();
 
     const loginAction = async (formData) => {
         const email = formData.get("email");
         const password = formData.get("password");
 
 
-        if (!email || !password ) {
+        if (!email || !password) {
             alert("All fields should be filled.");
             return;
         }
@@ -21,8 +25,8 @@ export default function Login() {
         try {
             const result = await authService.login(email, password);
             onAuthenticate(result);
-            navigate('/');
-            
+            navigate(redirectTo, { replace: true });
+
 
         } catch (error) {
             alert(error.message);

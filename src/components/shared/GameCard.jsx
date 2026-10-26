@@ -6,18 +6,14 @@ export default function GameCard({ game, onLikeChange }) {
     return (
 
         <article className="game-card">
-            <a className="game-card__cover" href="game-details.html"
+            <div className="game-card__cover"
                 aria-label="View Terraforming Mars details">
                 <img className="game-card__image"
                     src={game.image_url} alt="Illustrated Terraforming Mars cover" width="600"
                     height="600" loading="lazy" />
-                {/* <span className="badge badge--cover">Community favorite</span> */}
-            </a>
+            </div>
             <div className="game-card__body">
-                {/* <div className="game-card__eyebrow">
-                    <span>Strategy</span><span className="rating"><span aria-hidden="true">★</span> 8.4<span
-                        className="visually-hidden"> out of 10</span></span>
-                </div> */}
+
                 <h3 className="game-card__title">
                     <a href="game-details.html">{game.title}</a>
                 </h3>
@@ -39,7 +35,6 @@ export default function GameCard({ game, onLikeChange }) {
 
                 <div className="game-card__actions">
                     <NavLink className="button button--secondary button--small" to={`/game-details/${game.id}`}>View details</NavLink>
-                    {/* <a className="button button--secondary button--small" href="game-details.html">View details</a> */}
                     <LikeButton game={game} onLikeChange={onLikeChange} />
                 </div>
             </div>

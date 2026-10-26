@@ -13,6 +13,8 @@ import Login from './components/auth/Login.jsx';
 import Register from './components/auth/Register.jsx';
 import CreateGame from './components/CreateGame/CreateGame.jsx';
 import EditGame from './components/EditGame/EditGame.jsx';
+import PrivateGuard from './components/guards/PrivateGuard.jsx';
+import GuestGuard from './components/guards/GuestGuard.jsx';
 
 function App() {
 
@@ -29,12 +31,19 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/catalog" element={<Catalog />} />
-                    <Route path="/my-vault" element={<MyVault />} />
-                    <Route path="/create-game" element={<CreateGame />} />
-                    <Route path="/edit-game/:gameId" element={<EditGame />} />
+
+                    <Route element={<PrivateGuard />}>
+                        <Route path="/my-vault" element={<MyVault />} />
+                        <Route path="/create-game" element={<CreateGame />} />
+                        <Route path="/edit-game/:gameId" element={<EditGame />} />
+                    </Route>
+
                     <Route path="/game-details/:gameId" element={<GameDetails />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+
+                    <Route element={<GuestGuard />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Route>
                     {/* <Route path="/logout" element={onLogout} /> */}
 
                     <Route path="*" element={<NotFound />} />

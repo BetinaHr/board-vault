@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function DiscoveryFilters({ category, onCategoryChange }) {
     return (
 
@@ -11,7 +13,7 @@ export default function DiscoveryFilters({ category, onCategoryChange }) {
                         A seat at every table.
                     </h2>
                 </div>
-                <a className="text-link" href="catalog.html">Browse the full catalog <span aria-hidden="true">→</span></a>
+                <Link className="text-link" to="/catalog">Browse the full catalog <span aria-hidden="true">→</span></Link>
             </div>
             <div className="chip-list">
                 {[
@@ -33,7 +35,7 @@ export default function DiscoveryFilters({ category, onCategoryChange }) {
                     </button>
                 ))}
             </div>
-            <div className="session-filters">
+            {/* <div className="session-filters">
                 <span>Make it a game night:</span>
                 <div className="chip-list">
                     <button type="button" className="chip" aria-pressed="false" onClick={() => onCategoryChange('1–2 Players')}>1–2 Players</button>
@@ -41,7 +43,7 @@ export default function DiscoveryFilters({ category, onCategoryChange }) {
                     <button type="button" className="chip" aria-pressed="false" onClick={() => onCategoryChange('5+ Players')}>5+ Players</button>
                     <button type="button" className="chip" aria-pressed="false" onClick={() => onCategoryChange('Under 60 min')}>Under 60 min</button>
                 </div>
-            </div>
+            </div> */}
         </section>
     );
 }

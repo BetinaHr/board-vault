@@ -66,7 +66,7 @@ export default function CreateGame() {
                         Hello,  project examiner xD! Add a game to your liking.
                     </p>
                     <ul>
-                        <li>Use the full, published game title.</li>
+                        <li>I have included some template games for easy testing in the readme.</li>
                         <li>Double-check player counts and play time.</li>
                         <li>Choose the category that fits best.</li>
                     </ul>
