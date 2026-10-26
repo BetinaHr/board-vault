@@ -10,7 +10,7 @@ export default function Register() {
     const { onAuthenticate } = useAuth();
 
     const registerAction = async (formData) => {
-        const username = formData.get("username");
+        const username = formData.get("username").trim();
         const email = formData.get("email");
         const password = formData.get("password");
         const confirmPassword = formData.get("confirm-password");
@@ -24,6 +24,22 @@ export default function Register() {
 
         if (!username || !email || !password || !confirmPassword) {
             alert("All fields should be filled.");
+            return;
+        }
+
+        if (username.length < 3 || username.length > 30) {
+            alert('Username must contain between 3 and 30 characters.');
+            return;
+        }
+
+        if (
+            password.length < 8 ||
+            !/[a-zA-Z]/.test(password) ||
+            !/[0-9]/.test(password)
+        ) {
+            alert(
+                'Password must contain at least 8 characters, including a letter and a number.'
+            );
             return;
         }
 

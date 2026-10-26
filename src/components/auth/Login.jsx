@@ -16,7 +16,7 @@ export default function Login() {
         const email = formData.get("email");
         const password = formData.get("password");
 
-
+        
         if (!email || !password) {
             alert("All fields should be filled.");
             return;

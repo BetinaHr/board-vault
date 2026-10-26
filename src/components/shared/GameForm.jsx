@@ -1,8 +1,104 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
 
 export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancelTo = '/catalog', initialValues = {} }) {
+    const [values, setValues] = useState(() => ({
+        'game-title': initialValues.title ?? '',
+        description: initialValues.description ?? '',
+        story: initialValues.story ?? '',
+        'image-url': initialValues.image_url ?? '',
+        release_year: initialValues.release_year ?? '',
+        designer: initialValues.designer ?? '',
+        'min-players': initialValues.min_players ?? '',
+        'max-players': initialValues.max_players ?? '',
+        'min-playtime': initialValues.min_playtime ?? '',
+        'max-playtime': initialValues.max_playtime ?? '',
+        'game-category': initialValues.category ?? '',
+        difficulty: initialValues.difficulty ?? '',
+    }));
+
+    const [validationError, setValidationError] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
+
+    const changeHandler = (event) => {
+        const { name, value } = event.target;
+
+        setValues(current => ({
+            ...current,
+            [name]: value,
+        }));
+
+        setValidationError(null);
+    };
+
+    const submitHandler = async (event) => {
+        event.preventDefault();
+
+        if (submitting) return;
+
+        setValidationError(null);
+
+        const title = values['game-title'].trim();
+
+        if (title.length < 3 || title.length > 100) {
+            setValidationError('Title must contain 3–100 characters.');
+            return;
+        }
+
+        if (!values.description.trim()) {
+            setValidationError('Description cannot be empty or only spaces.');
+            return;
+        }
+
+        try {
+            const imageUrl = new URL(values['image-url'].trim());
+
+            if (!['http:', 'https:'].includes(imageUrl.protocol)) {
+                throw new Error();
+            }
+        } catch {
+            setValidationError('Enter a valid HTTP or HTTPS image URL.');
+            return;
+        }
+
+        if (
+            Number(values['min-players']) >
+            Number(values['max-players'])
+        ) {
+            setValidationError(
+                'Maximum players must be at least the minimum players.'
+            );
+            return;
+        }
+
+
+        if (
+            Number(values['min-playtime']) >
+            Number(values['max-playtime'])
+        ) {
+            setValidationError(
+                'Maximum play time must be at least the minimum play time.'
+            );
+            return;
+        }
+
+        // Keep the FormData interface expected by CreateGame and EditGame.
+        const formData = new FormData(event.currentTarget);
+
+        setSubmitting(true);
+
+        try {
+            await onSubmit(formData);
+        } catch (error) {
+            setValidationError(error.message);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
-        <form className="game-form surface" action={onSubmit}>
+
+        <form className="game-form surface" onSubmit={submitHandler}>
             <div className="form-section">
                 <div className="form-section__heading">
                     <span className="step-number">01</span>
@@ -22,7 +118,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                         id="game-title"
                         name="game-title"
                         type="text"
-                        defaultValue={initialValues.title ?? ''}
+                        value={values['game-title']}
+                        onChange={changeHandler}
                         required
                         minLength={3}
                         maxLength={100}
@@ -43,7 +140,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                         className="form-input"
                         id="description"
                         name="description"
-                        defaultValue={initialValues.description ?? ''}
+                        value={values['description']}
+                        onChange={changeHandler}
                         rows={5}
                         required
                         aria-describedby="description-help"
@@ -62,7 +160,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                         className="form-input"
                         id="story"
                         name="story"
-                        defaultValue={initialValues.story ?? ''}
+                        value={values['story']}
+                        onChange={changeHandler}
                         rows={6}
                         placeholder="Share the story or background of the game."
                     />
@@ -78,7 +177,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                         id="image-url"
                         name="image-url"
                         type="url"
-                        defaultValue={initialValues.image_url ?? ''}
+                        value={values['image-url']}
+                        onChange={changeHandler}
                         required
                         aria-describedby="image-url-help"
                     />
@@ -97,9 +197,10 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             id="release-year"
                             name="release_year"
                             type="number"
-                            defaultValue={initialValues.release_year ?? ''}
+                            value={values['release_year']}
+                            onChange={changeHandler}
                             min={1900}
-                            max={2026}
+                            max={new Date().getFullYear()}
                             placeholder="2026"
                         />
                     </div>
@@ -113,7 +214,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             id="designer"
                             name="designer"
                             type="text"
-                            defaultValue={initialValues.designer ?? ''}
+                            value={values['designer']}
+                            onChange={changeHandler}
                         />
                     </div>
 
@@ -140,7 +242,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             id="min-players"
                             name="min-players"
                             type="number"
-                            defaultValue={initialValues.min_players ?? ''}
+                            value={values['min-players']}
+                            onChange={changeHandler}
                             required
                             min={1}
                         />
@@ -159,7 +262,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             id="max-players"
                             name="max-players"
                             type="number"
-                            defaultValue={initialValues.max_players ?? ''}
+                            value={values['max-players']}
+                            onChange={changeHandler}
                             required
                             min={1}
                             aria-describedby="max-players-help"
@@ -175,7 +279,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             id="min-playtime"
                             name="min-playtime"
                             type="number"
-                            defaultValue={initialValues.min_playtime ?? ''}
+                            value={values['min-playtime']}
+                            onChange={changeHandler}
                             min={1}
                             required
                         />
@@ -195,7 +300,8 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             id="max-playtime"
                             name="max-playtime"
                             type="number"
-                            defaultValue={initialValues.max_playtime ?? ''}
+                            value={values['max-playtime']}
+                            onChange={changeHandler}
                             required
                             min={1}
                             aria-describedby="playing-time-help"
@@ -211,7 +317,9 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             className="form-input"
                             id="game-category"
                             name="game-category"
-                            defaultValue={initialValues.category ?? ''}
+                            value={values['game-category']}
+                            onChange={changeHandler}
+                            required
                         >
                             <option value="" disabled>Select a category</option>
                             <option value="Strategy">Strategy</option>
@@ -233,7 +341,9 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                             id="difficulty"
                             name="difficulty"
                             type="number"
-                            defaultValue={initialValues.difficulty ?? ''}
+                            value={values['difficulty']}
+                            onChange={changeHandler}
+                            required
                             min={1}
                             max={5}
                             step={0.1}
@@ -242,11 +352,16 @@ export default function GameForm({ onSubmit, submitLabel = 'Create Game', cancel
                 </div>
             </div>
 
+            {validationError && (
+                <p className="form-error" role="alert">
+                    {validationError}
+                </p>
+            )}
             <div className="form-actions">
                 <Link className="button button--secondary" to={cancelTo}>
                     Cancel
                 </Link>
-                <button className="button button--primary" type="submit" >
+                <button className="button button--primary" type="submit" disabled={submitting}>
                     {submitLabel}
                 </button>
             </div>
