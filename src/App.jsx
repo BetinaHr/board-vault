@@ -12,6 +12,7 @@ import MyVault from './components/Vault/Vault.jsx';
 import Login from './components/auth/Login.jsx';
 import Register from './components/auth/Register.jsx';
 import CreateGame from './components/CreateGame/CreateGame.jsx';
+import EditGame from './components/EditGame/EditGame.jsx';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/my-vault" element={<MyVault />} />
                     <Route path="/create-game" element={<CreateGame />} />
+                    <Route path="/edit-game/:gameId" element={<EditGame />} />
                     <Route path="/game-details/:gameId" element={<GameDetails />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />

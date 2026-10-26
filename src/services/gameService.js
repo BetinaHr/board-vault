@@ -22,6 +22,21 @@ export function create(gameData, accessToken) {
     return request(basePath, 'POST', gameData, accessToken);
 }
 
+// EDIT GAME
+export async function update(gameId, gameData, accessToken) {
+    const updatedGames = await request(
+        `${basePath}?id=eq.${encodeURIComponent(gameId)}`, 'PATCH', gameData, accessToken, { Prefer: 'return=representation' }
+    );
+
+    if (!updatedGames?.length) {
+        throw new Error(
+            'Game not found or you do not have permission to edit it.'
+        );
+    }
+
+    return updatedGames[0];
+}
+
 // DELETE GAME
 export async function remove(gameId, accessToken) {
     const deletedGames = await request(

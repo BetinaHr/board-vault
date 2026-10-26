@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate, Link } from 'react-router'
 import * as gameService from '../../services/gameService.js'
 import useAuth from '../../hooks/useAuth.js';
 
@@ -120,8 +120,13 @@ export default function GameDetails() {
                     </div> */}
 
                     {isOwner && (
-                        <div className="owner-actions">
-                            <h2>Added by you</h2>
+                        <div className="button-row">
+                            <Link
+                                className="button button--secondary button--small"
+                                to={`/edit-game/${gameId}`}
+                            >
+                                Edit game
+                            </Link>
 
                             <button
                                 className="button button--danger-outline button--small"
@@ -131,10 +136,6 @@ export default function GameDetails() {
                             >
                                 {deleting ? 'Deleting...' : 'Delete game'}
                             </button>
-
-                            {deleteError && (
-                                <p role="alert">{deleteError}</p>
-                            )}
                         </div>
                     )}
                 </div>

@@ -32,9 +32,13 @@ export default async function request(path = "/", method = 'GET', data = null, a
     }
 
     if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        const error = await response.json();
+
+        throw new Error(
+            error.message || `Error: ${response.status} ${response.statusText}`
+        );
     }
-    
+
     const text = await response.text();
     return text ? JSON.parse(text) : null;
 }
