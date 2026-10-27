@@ -1,6 +1,6 @@
 ﻿# 1. Project Overview
 
-Application name: BoardVault
+## Application name: **BoardVault**
 
 Application Category / Topic: Board game catalog and personal collection manager
 
@@ -9,12 +9,12 @@ Board Vault helps users discover board games and keep track of games they have a
 
 # 2. User Access and Permissions
 
-Guest (Not Authenticated)
+## Guest (Not Authenticated)
 - Available pages / routes: Home (/), Catalog (/catalog), Game Details (/game-details/:gameId), Login (/login), and Register (/register).
 - Public data shown: Game titles, images, descriptions, categories, designer, release year, player counts, playtime, and difficulty.
 - Guests cannot access My Vault, Create Game, or Edit Game, or perform like, create, edit, and delete actions.
 
-Authenticated User
+## Authenticated User
 - Main sections / pages: All public content, My Vault (/my-vault), and Create Game (/create-game). My Vault displays owned and liked games with filtering and counts.
 - Details pages: Users can view every game’s details. Creators also see Edit and Delete controls on their own games.
 - Create / Edit / Delete actions: Users can create games, edit their own entries at /edit-game/:gameId, and delete their own entries after confirmation. They can like and unlike games.
@@ -22,7 +22,7 @@ Authenticated User
 
 # 3. Authentication & Session Handling 
 
-Authentication Flow
+## Authentication Flow
 
 - When the app loads: AuthProvider reads the saved session from localStorage. If no valid session is stored, the application counts the visitor as a guest. If the stored access token has expired, the application displays a restoration message while requesting a refreshed session.
 - Checking authentication status: Components access the current user and access token through Auth Context using the useAuth hook. Route guards use this state to control access to private and guest-only pages. Supabase verifies tokens and database permissions for API requests.
@@ -30,7 +30,7 @@ Authentication Flow
 - Successful registration: Supabase creates the account and stores the username in user metadata. If a session is returned, the application signs the user in and redirects it to the catalog.
 - Logout: The application clears Context and localStorage immediately, then requests logout from Supabase. The interface returns to its guest state, and private routes become inaccessible.
 
-Session Persistence
+## Session Persistence
 
 The session is stored in localStorage under board-vault-session and shared through Auth Context. It contains the user, access token, refresh token, and expiry time; the password is never stored.
 
@@ -96,7 +96,7 @@ Board Vault uses Supabase. BoardVault communicates with Supabase's REST API usin
 
 There is not separate backend used.
 
-## 7. Data Operations (CRUD)
+# 7. Data Operations (CRUD)
 
 All four CRUD operations are implemented for the games collection through gameService.js and Supabase’s REST API.
 
