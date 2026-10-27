@@ -7,6 +7,11 @@ Application Category / Topic: Board game catalog and personal collection manager
 Main Purpose:
 Board Vault helps users discover board games and keep track of games they have added or liked. Visitors can browse the catalog, search by title, and view detailed game information. Registered users can add games, edit or delete their own entries, and access their owned and liked games through My Vault.
 
+## Live Demo
+[Open Board Vault](https://board-vault-sand.vercel.app)
+
+## Live Demo
+
 # 2. User Access and Permissions
 
 ## Guest (Not Authenticated)
@@ -199,6 +204,23 @@ Other commands:
 - `npm run build` - build the app.
 - `npm run preview` - preview the build.
 - `npm run lint` - check the code with ESLint.
+
+Create a `.env` file in the project root:
+
+```env
+VITE_SUPABASE_URL=your-supabase-project-url
+VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
+```
+
+Use the project URL and publishable key from Supabase. The app requires a configured Supabase backend with the games and likes tables and their access policies.
+
+Start the development server:
+
+```sh
+npm run dev
+```
+
+Open the local URL printed in the terminal.
 
 ## Project structure
 
