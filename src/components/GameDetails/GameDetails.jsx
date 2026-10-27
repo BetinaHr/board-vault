@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router'
 import * as gameService from '../../services/gameService.js'
 import useAuth from '../../hooks/useAuth.js';
+import GameLikes from '../shared/GameLikes.jsx';
 
 
 export default function GameDetails() {
@@ -104,6 +105,7 @@ export default function GameDetails() {
                                 <small>min</small>
                             </dd>
                         </div>
+                        <GameLikes key={game.id} game={game} />
                     </dl>
 
                     {isOwner && (

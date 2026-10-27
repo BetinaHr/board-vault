@@ -1,6 +1,4 @@
-import wingspanImage from '../../assets/images/wingspan.svg'
 import { Link } from 'react-router';
-import LikeButton from '../shared/LikeButton.jsx';
 
 export default function FeaturedGame({ game }) {
 
@@ -11,27 +9,41 @@ export default function FeaturedGame({ game }) {
                 <p className="hero__eyebrow">
                     A little wonder. A lot of strategy.
                 </p>
+                
                 <h1 id="featured-title">
                     Let your next
                     <br />
                     game take flight.
                 </h1>
+
                 <p className="hero__description">
-                    Discover <strong>Wingspan</strong>. Build a thriving bird sanctuary in a beautifully crafted game of
-                    thoughtful choices and unexpected connections.
+                    Discover <strong>{game.title}</strong>. {game.description}
                 </p>
+
                 <div className="hero__meta">
-                    <span>★ <strong>8.1</strong> rating</span><span>1–5 players</span><span>40–70
-                        min</span><span>Strategy</span>
+                    <span>
+                        <strong>
+                            {game.difficulty}
+                        </strong> difficulty
+                    </span>
+
+                    <span>
+                        {game.min_players}–{game.max_players} players
+                    </span>
+
+                    <span>
+                        {game.min_playtime}–{game.max_playtime}min
+                    </span>
+
+                    <span>
+                        {game.category}
+                    </span>
                 </div>
                 <div className="button-row">
-                    
-                    <Link className="button button--white"to={`/game-details/${game.id}`}>
+
+                    <Link className="button button--white" to={`/game-details/${game.id}`}>
                         View Details <span aria-hidden="true">↗</span>
                     </Link>
-
-                    {/* AUTHENTICATED USERS ONLY*/}
-                    <LikeButton game={game} />
                 </div>
                 <p className="hero__note">
                     For the curious. For the collectors. For game night.
@@ -40,8 +52,8 @@ export default function FeaturedGame({ game }) {
             <div className="hero__image">
                 <div className="hero__orbit" aria-hidden="true">
                 </div>
-                <img src={wingspanImage} alt="Illustrated Wingspan cover with a bird perched on a branch"
-                    width="600" height="600" /><span className="hero__art-note">Your next favorite awaits.</span>
+                <img src={game.image_url} alt="Illustrated Wingspan cover with a bird perched on a branch" width="600" height="600" />
+                <span className="hero__art-note">Your next favorite awaits.</span>
             </div>
         </section>
     );

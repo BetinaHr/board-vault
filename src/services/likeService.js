@@ -68,3 +68,14 @@ export async function isLiked(gameId, accessToken) {
 
     return likes.length > 0;
 }
+
+// Get the count of likes for a specific game
+export async function getCount(gameId) {
+    const count = await request(
+        '/rest/v1/rpc/get_game_likes_count',
+        'POST',
+        { p_game_id: gameId }
+    );
+
+    return Number(count);
+}
