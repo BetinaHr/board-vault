@@ -181,15 +181,15 @@ Login and registration display API errors through alerts. Registration also chec
 
 ## Network or Data Errors
 
-Data-driven pages display loading feedback while requests are pending and error messages if requests fail. 
+Pages displaying data show loading feedback while requests are pending and error messages if requests fail. 
 Invalid game-form values prevent submission and show an inline validation message. 
-Failed edits and deletions display errors without reporting success. 
+Failed edits and deletions display errors. 
 Like buttons are disabled while requests are pending and display failures.
 
 ## Empty or Missing Data States
 
-Home displays a message when no games match the selected category. 
-My Vault displays an empty-state message when the collection or selected filter contains no games. 
+**Home** displays a message when no games match the selected category. 
+**My Vault** displays an empty-state message when the collection or selected filter contains no games. 
 Details and Edit handle missing records, while Edit also denies access to users who do not own the game. 
 Unknown URLs display the Not Found page.
 

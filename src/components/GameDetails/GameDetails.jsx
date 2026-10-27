@@ -3,6 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router'
 import * as gameService from '../../services/gameService.js'
 import useAuth from '../../hooks/useAuth.js';
 import GameLikes from '../shared/GameLikes.jsx';
+import Spinner from '../shared/Spinner.jsx';
+import GameNotFound from '../shared/GameNotFound.jsx';
+import GameError from '../shared/GameError.jsx';
 
 
 export default function GameDetails() {
@@ -55,9 +58,23 @@ export default function GameDetails() {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p role="alert">{error.message}</p>;
-    if (!game) return <p>Game not found.</p>;
+    if (loading) {
+        return (
+            <Spinner />
+        );
+    }
+
+    if (error) {
+        return (
+            <GameError />
+        );
+    }
+
+    if (!game) {
+        return (
+            <GameNotFound />
+        );
+    }
 
     return (
         <>
@@ -75,15 +92,12 @@ export default function GameDetails() {
                     <div className="chip-list">
                         <span className="badge">{game.category}</span>
 
-                        {/* Mechanics is an array of strings in the database */}
-                        {/* Add each mechanic in a separate badge */}
-                        {game.mechanics?.map(mechanic => {
-                            return <span key={mechanic} className="badge">{mechanic}</span>;
-                        })}
                     </div>
+                    
                     <p>
                         {game.description}
                     </p>
+
                     <dl className="game-facts">
                         <div>
                             <dt>
@@ -133,6 +147,7 @@ export default function GameDetails() {
                     )}
                 </div>
             </section>
+
             <div className="details-layout">
                 <div>
                     <section className="surface section" aria-labelledby="about-title">
@@ -156,9 +171,11 @@ export default function GameDetails() {
                 </div>
 
                 <aside className="surface game-information" aria-labelledby="info-title">
+
                     <h2 id="info-title">
                         Game information
                     </h2>
+
                     <dl className="information-list">
                         <div>
                             <dt>
@@ -197,6 +214,7 @@ export default function GameDetails() {
                                 Playing time
                             </dt>
                             <dd>
+                                {/* If the minimum playtime is equal to the maximum playtime, do not display it as an interval: 40-40 min */}
                                 {game.min_playtime !== game.max_playtime
                                     ? `${game.min_playtime}–${game.max_playtime}`
                                     : game.max_playtime}

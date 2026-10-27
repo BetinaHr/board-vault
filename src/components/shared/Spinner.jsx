@@ -3,7 +3,7 @@ export default function Spinner() {
 
         <div className="vault-loading" role="status">
             <span className="vault-loading__spinner" aria-hidden="true" />
-            <p>Opening your vault...</p>
+            <p>Opening your games...</p>
         </div>
     );
 }
