@@ -6,8 +6,7 @@ export default function Footer() {
 
         < footer className="site-footer" >
             <div className="container footer-layout">
-                <a className="brand" href="index.html"><img src={vaultIcon} alt="" width="30"
-                    height="30" />BoardVault</a>
+                <Link className="brand" to="/"><img src={vaultIcon} alt="" width="30" height="30" />BoardVault</Link>
                 <p>
                     A good game brings people together.
                 </p>

@@ -1,129 +1,101 @@
-export default function CatalogFilters({ searchState, onSearchChange }) {
+export default function CatalogFilters({ searchState, onSearchChange, filters, onFilterChange }) {
     return (
-        <>
-            <section className="filter-panel" aria-label="Catalog filters">
-                <div className="catalog-search form-group">
-                    <label htmlFor="catalog-search" className="form-label">
-                        Search the collection
+        <section className="filter-panel" aria-label="Catalog filters">
+            <div className="catalog-search form-group">
+                <label htmlFor="catalog-search" className="form-label">
+                    Search the collection
+                </label>
+
+                <input
+                    className="form-input"
+                    type="search"
+                    id="catalog-search"
+                    placeholder="Search by game name..."
+                    value={searchState}
+                    onChange={event => onSearchChange(event.target.value)}
+                />
+            </div>
+
+            <div className="filter-bar">
+                <div className="form-group">
+                    <label className="form-label" htmlFor="category">
+                        Category
                     </label>
 
-                    {/* On change in the search bar, we get the typed value and save it in searchState */}
-                    <input className="form-input" type="search" id="catalog-search" placeholder="Search by game name…" value={searchState}
-                        onChange={event => onSearchChange(event.target.value)}
+                    <select
+                        className="form-input"
+                        id="category"
+                        name="category"
+                        value={filters.category}
+                        onChange={onFilterChange}
+                    >
+                        <option value="">All categories</option>
+                        <option value="Strategy">Strategy</option>
+                        <option value="Family">Family</option>
+                        <option value="Party">Party</option>
+                        <option value="Cooperative">Cooperative</option>
+                        <option value="Card Games">Card Games</option>
+                        <option value="Abstract">Abstract</option>
+                    </select>
+                </div>
+
+                <div className="form-group">
+                    <label className="form-label" htmlFor="players">
+                        Number of players
+                    </label>
+
+                    <input
+                        className="form-input"
+                        id="players"
+                        name="players"
+                        type="number"
+                        min={1}
+                        step={1}
+                        placeholder="Any player count"
+                        value={filters.players}
+                        onChange={onFilterChange}
                     />
                 </div>
-                <div className="filter-bar">
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="category">
-                            Category
-                        </label>
-                        <select className="form-input" id="category"
-                            name="category">
-                            <option>
-                                All categories
-                            </option>
-                            <option>
-                                Strategy
-                            </option>
-                            <option>
-                                Family
-                            </option>
-                            <option>
-                                Party
-                            </option>
-                            <option>
-                                Cooperative
-                            </option>
-                            <option>
-                                Card Games
-                            </option>
-                            <option>
-                                Abstract
-                            </option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="players">
-                            Players
-                        </label>
-                        <select className="form-input" id="players"
-                            name="players">
-                            <option>
-                                Any player count
-                            </option>
-                            <option>
-                                1–2 players
-                            </option>
-                            <option>
-                                3–4 players
-                            </option>
-                            <option>
-                                5+ players
-                            </option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="play-time">
-                            Play time
-                        </label>
-                        <select className="form-input" id="play-time"
-                            name="play-time">
-                            <option>
-                                Any duration
-                            </option>
-                            <option>
-                                Under 30 min
-                            </option>
-                            <option>
-                                Under 60 min
-                            </option>
-                            <option>
-                                60–120 min
-                            </option>
-                            <option>
-                                Over 120 min
-                            </option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="rating">
-                            Rating
-                        </label>
-                        <select className="form-input" id="rating"
-                            name="rating">
-                            <option>
-                                Any rating
-                            </option>
-                            <option>
-                                7.0 and above
-                            </option>
-                            <option>
-                                8.0 and above
-                            </option>
-                            <option>
-                                9.0 and above
-                            </option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="sort">
-                            Sort by
-                        </label>
-                        <select className="form-input" id="sort"
-                            name="sort">
-                            <option>
-                                Highest Rated
-                            </option>
-                            <option>
-                                Newest
-                            </option>
-                            <option>
-                                Alphabetical
-                            </option>
-                        </select>
-                    </div>
+
+                <div className="form-group">
+                    <label className="form-label" htmlFor="playtime">
+                        Maximum playtime
+                    </label>
+
+                    <select
+                        className="form-input"
+                        id="playtime"
+                        name="playtime"
+                        value={filters.playtime}
+                        onChange={onFilterChange}
+                    >
+                        <option value="">Any duration</option>
+                        <option value="under30">Under 30 min</option>
+                        <option value="under60">Under 60 min</option>
+                        <option value="60to120">60–120 min</option>
+                        <option value="over120">Over 120 min</option>
+                    </select>
                 </div>
-            </section>
-        </>
+
+                <div className="form-group">
+                    <label className="form-label" htmlFor="difficulty">
+                        Difficulty
+                    </label>
+
+                    <select
+                        className="form-input"
+                        id="difficulty"
+                        name="difficulty"
+                        value={filters.difficulty}
+                        onChange={onFilterChange}
+                    >
+                        <option value="">Any difficulty</option>
+                        <option value="easy">Easy (1–2)</option>
+                        <option value="medium">Medium (&gt;2–3.5)</option>
+                        <option value="hard">Hard (&gt;3.5–5)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
     );
 }

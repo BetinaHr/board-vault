@@ -1,5 +1,6 @@
 import wingspanImage from '../../assets/images/wingspan.svg'
 import { Link } from 'react-router';
+import LikeButton from '../shared/LikeButton.jsx';
 
 export default function FeaturedGame({ game }) {
 
@@ -30,7 +31,7 @@ export default function FeaturedGame({ game }) {
                     </Link>
 
                     {/* AUTHENTICATED USERS ONLY*/}
-                    <button className="button button--hero" type="button">+ Add to Vault</button>
+                    <LikeButton game={game} />
                 </div>
                 <p className="hero__note">
                     For the curious. For the collectors. For game night.

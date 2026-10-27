@@ -3,6 +3,8 @@ import azulImage from '../../assets/images/azul.svg';
 import wingspanImage from '../../assets/images/wingspan.svg';
 import * as authService from '../../services/authService.js';
 import useAuth from '../../hooks/useAuth.js';
+import { useState } from 'react';
+import FormError from '../shared/FormError.jsx';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -10,15 +12,22 @@ export default function Login() {
     const location = useLocation();
     const redirectTo = location.state?.from || '/catalog';
 
+    const [loginError, setLoginError] = useState(null);
+
     const { onAuthenticate } = useAuth();
 
-    const loginAction = async (formData) => {
+    const loginAction = async (event) => {
+        event.preventDefault();
+        
+        const formData = new FormData(event.currentTarget);
+
+        setLoginError(null);
         const email = formData.get("email");
         const password = formData.get("password");
 
-        
+
         if (!email || !password) {
-            alert("All fields should be filled.");
+            setLoginError("All fields should be filled.");
             return;
         }
 
@@ -28,10 +37,12 @@ export default function Login() {
             navigate(redirectTo, { replace: true });
 
 
-        } catch (error) {
-            alert(error.message);
+        } catch {
+            setLoginError("We couldn’t log you in. Check your email and password, then try again.");
         }
     };
+
+
 
     return (
         <>
@@ -70,7 +81,6 @@ export default function Login() {
                     </span>
                 </aside>
 
-                {/* Guests only: add authentication redirection later. */}
                 <section className="auth-panel" aria-labelledby="login-title">
                     <p className="eyebrow">Your table is waiting</p>
                     <h1 id="login-title">Welcome back.</h1>
@@ -79,12 +89,9 @@ export default function Login() {
                         Log in to your personal Board Vault.
                     </p>
 
-                    {/* Show this only when login fails. */}
-                    {/* <div className="form-alert" role="alert">
-                    Invalid email or password.
-                </div> */}
+                    <FormError message={loginError} />
 
-                    <form action={loginAction}>
+                    <form onSubmit={loginAction}>
                         <div className="form-group">
                             <label className="form-label" htmlFor="email">
                                 Email <span className="required" aria-hidden="true">*</span>
@@ -112,11 +119,6 @@ export default function Login() {
                                 required
                             />
                         </div>
-
-                        <label className="checkbox-label">
-                            <input type="checkbox" name="remember" />
-                            {' '}Remember me
-                        </label>
 
                         <button
                             className="button button--primary button--full" type="submit">

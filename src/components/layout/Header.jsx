@@ -15,6 +15,10 @@ export default function Header() {
         }
     };
 
+    const username = user?.user_metadata?.username?.trim() || 'User';
+
+    const initials = username.slice(0, 2).toUpperCase();
+
     return (
         <header className="site-header">
             <div className="container header-layout">
@@ -24,24 +28,42 @@ export default function Header() {
 
                 <Navigation user={user} />
 
-                <div className="header-search">
+                {/* <div className="header-search">
                     <label className="visually-hidden" htmlFor="header-search">Search board games</label>
                     <span aria-hidden="true">⌕</span><input id="header-search" type="search"
                         placeholder="Find your next game…" />
-                </div>
+                </div> */}
+                
                 <div className="header-account">
                     {/* AUTHENTICATED USERS ONLY */}
-                    <a className="avatar" href="profile.html" aria-label="Alex Morgan's profile">AM</a>
                     {user ? (
-                        <button className="button button--text" type="button" onClick={handleLogout}>Logout</button>
+                        <>
+                            <span
+                                className="avatar"
+                                title={username}
+                                aria-label={`Signed in as ${username}`}
+                            >
+                                {initials}
+                            </span>
+
+                            <button
+                                className="button button--text"
+                                type="button"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        </>
                     ) : (
                         <>
-                            <Link className="button button--text" to="/login">Login</Link>
-                            <Link className="button button--text" to="/register">Register</Link>
+                            <Link className="button button--text" to="/login">
+                                Login
+                            </Link>
+                            <Link className="button button--text" to="/register">
+                                Register
+                            </Link>
                         </>
-
-                    )
-                    }
+                    )}
                 </div>
             </div>
         </header>

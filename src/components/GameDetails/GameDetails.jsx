@@ -104,14 +104,6 @@ export default function GameDetails() {
                                 <small>min</small>
                             </dd>
                         </div>
-                        {/* <div>
-                            <dt>
-                                Age
-                            </dt>
-                            <dd>
-                                10+
-                            </dd>
-                        </div> */}
                     </dl>
 
                     {isOwner && (
@@ -141,13 +133,12 @@ export default function GameDetails() {
             </section>
             <div className="details-layout">
                 <div>
-                    {/* Future React component: <GameAbout />. */}
                     <section className="surface section" aria-labelledby="about-title">
                         <p className="eyebrow">
                             The story behind the game
                         </p>
                         <h2 id="about-title">
-                            About Wingspan
+                            About {game.title}
                         </h2>
                         <p>
                             {game.story}
@@ -160,68 +151,8 @@ export default function GameDetails() {
                             <span className="badge">Strategy</span><span className="badge">Card Drafting</span><span className="badge">Engine Building</span><span className="badge">Set Collection</span>
                         </div>
                     </section>
-                    {/* ======================================================
-               COMMUNITY INTERACTION
-          ======================================================= */}
-                    <section className="surface section" aria-labelledby="community-title">
-                        <div className="section-heading">
-                            <h2 id="community-title">
-                                Around the table <span className="count">2</span>
-                            </h2>
-                            <button className="button button--text" type="button" aria-pressed="false">♡ Like · 128</button>
-                        </div>
-                        <div className="comment-list">
-                            {/* ======================================================
-                   COMMUNITY COMMENT
-                   One member’s name, date, and game impression.
-                   Future React component: <Comment />.
-              ======================================================= */}
-                            <article className="comment-card">
-                                <span className="avatar" aria-hidden="true">AM</span>
-                                <div>
-                                    <h3>
-                                        Alex <span className="comment-date">October 2, 2026</span>
-                                    </h3>
-                                    <p>
-                                        Great strategy game with beautiful artwork. The engine really comes together in the final round!
-                                    </p>
-                                </div>
-                            </article>
-                            {/* ======================================================
-                   COMMUNITY COMMENT
-              ======================================================= */}
-                            <article className="comment-card">
-                                <span className="avatar avatar--sage" aria-hidden="true">MR</span>
-                                <div>
-                                    <h3>
-                                        Maria <span className="comment-date">October 4, 2026</span>
-                                    </h3>
-                                    <p>
-                                        Works surprisingly well with two players. It's become our favorite quiet Sunday game.
-                                    </p>
-                                </div>
-                            </article>
-                        </div>
-                        {/* ======================================================
-                 COMMENT COMPOSER
-                 Authenticated members can later post a comment through React.
-                 Future React component: <CommentForm />.
-            ======================================================= */}
-                        {/* AUTHENTICATED USERS ONLY: guests should see a login invitation instead. */}
-                        <form className="comment-form">
-                            <label className="form-label" htmlFor="comment">Share your experience</label>
-                            <textarea className="form-input" id="comment" name="comment" rows="4" placeholder="What makes this game special at your table?"></textarea>
-                            <div className="form-actions">
-                                <button className="button button--primary" type="button">Post Comment</button>
-                            </div>
-                        </form>
-                    </section>
                 </div>
-                {/* ======================================================
-             GAME INFORMATION
-             Structured information for the game, suitable for a reusable detail list.
-             Future React component: <GameInformation />.
-        ======================================================= */}
+
                 <aside className="surface game-information" aria-labelledby="info-title">
                     <h2 id="info-title">
                         Game information

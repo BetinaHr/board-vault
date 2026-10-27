@@ -15,7 +15,7 @@ export default function GameCard({ game, onLikeChange }) {
             <div className="game-card__body">
 
                 <h3 className="game-card__title">
-                    <a href="game-details.html">{game.title}</a>
+                    {game.title}
                 </h3>
                 <p className="game-card__description">
                     {game.description}

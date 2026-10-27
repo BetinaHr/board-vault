@@ -10,7 +10,7 @@ export default function ApiError() {
             <p>
                 We couldn't load the board games. Please try again.
             </p>
-            <button className="button button--secondary" type="button">
+            <button className="button button--secondary" type="button" onClick={() => window.location.reload()}>
                 Try Again
             </button>
         </section>

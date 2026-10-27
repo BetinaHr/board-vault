@@ -4,16 +4,31 @@ import { Link } from 'react-router';
 import useAuth from '../../hooks/useAuth.js';
 import { useState } from 'react';
 import * as authService from '../../services/authService.js';
+import FormError from '../shared/FormError.jsx';
 
 export default function Register() {
     const [passwordMismatch, setPasswordMismatch] = useState(false);
     const { onAuthenticate } = useAuth();
+    const [registerError, setRegisterError] = useState(null);
 
-    const registerAction = async (formData) => {
+    const registerAction = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+
+        setRegisterError(null);
+
         const username = formData.get("username").trim();
         const email = formData.get("email");
         const password = formData.get("password");
         const confirmPassword = formData.get("confirm-password");
+
+
+
+
+        if (!username || !email || !password || !confirmPassword) {
+            setRegisterError("All fields should be filled.");
+            return;
+        }
 
         setPasswordMismatch(false);
         if (password !== confirmPassword) {
@@ -21,25 +36,16 @@ export default function Register() {
 
             return;
         }
-
-        if (!username || !email || !password || !confirmPassword) {
-            alert("All fields should be filled.");
-            return;
-        }
-
+        
         if (username.length < 3 || username.length > 30) {
-            alert('Username must contain between 3 and 30 characters.');
+            setRegisterError("Username must contain between 3 and 30 characters.");
+
             return;
         }
 
-        if (
-            password.length < 8 ||
-            !/[a-zA-Z]/.test(password) ||
-            !/[0-9]/.test(password)
+        if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)
         ) {
-            alert(
-                'Password must contain at least 8 characters, including a letter and a number.'
-            );
+            setRegisterError("Password must contain at least 8 characters, including a letter and a number.");
             return;
         }
 
@@ -49,13 +55,15 @@ export default function Register() {
             // Pass the whole user to App.jsx
             if (result.access_token) {
                 onAuthenticate(result);
-                console.log("Login successful")
+                // console.log("Login successful")
             } else {
-                alert('Check your email to confirm your account.');
+                setRegisterError(
+                    "Your account was created, but login was unsuccessful. Please try logging in."
+                );
             }
 
-        } catch (error) {
-            alert(error.message);
+        } catch {
+            setRegisterError("We couldn’t create your account. Check your details and try again. If you already have an account, please log in.");
         }
     };
 
@@ -97,7 +105,6 @@ export default function Register() {
                 </span>
             </aside>
 
-            {/* Guests only: show registration before authentication. */}
             <section className="auth-panel" aria-labelledby="register-title">
                 <p className="eyebrow">Start your collection</p>
 
@@ -109,7 +116,9 @@ export default function Register() {
                     Create your own corner of Board Vault.
                 </p>
 
-                <form action={registerAction}>
+                <FormError message={registerError} />
+
+                <form onSubmit={registerAction}>
                     <div className="form-group">
                         <label className="form-label" htmlFor="username">
                             Username{' '}
@@ -177,6 +186,8 @@ export default function Register() {
                             aria-describedby="confirm-password-error"
                             aria-invalid="true"
                         /> */}
+
+
 
                         {/* If there is password mismatch -> change the styling of the field to red */}
                         <input

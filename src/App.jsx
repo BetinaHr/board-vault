@@ -24,10 +24,6 @@ function App() {
             <Header />
 
             <main id="main-content" className="container main-content">
-                {/* <FeaturedGame /> */}
-                {/* Games Filter - hidden -> DiscoveryFilters */}
-                {/* <DiscoverGames /> */}
-
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/catalog" element={<Catalog />} />
@@ -44,7 +40,6 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                     </Route>
-                    {/* <Route path="/logout" element={onLogout} /> */}
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>

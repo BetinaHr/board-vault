@@ -6,6 +6,7 @@ import * as gameService from '../../services/gameService.js';
 import VaultStats from './VaultStats.jsx';
 import VaultFilters from './VaultFilters.jsx';
 import VaultCollection from './VaultCollection.jsx';
+import Spinner from '../shared/Spinner.jsx';
 
 export default function MyVault() {
     const { user, accessToken } = useAuth();
@@ -125,7 +126,7 @@ export default function MyVault() {
             </div>
 
             {loading ? (
-                <p>Loading your vault...</p>
+                <Spinner />
             ) : error ? (
                 <p role="alert">{error}</p>
             ) : (

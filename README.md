@@ -10,8 +10,6 @@ Board Vault helps users discover board games and keep track of games they have a
 ## Live Demo
 [Open Board Vault](https://board-vault-sand.vercel.app)
 
-## Live Demo
-
 # 2. User Access and Permissions
 
 ## Guest (Not Authenticated)
@@ -85,7 +83,7 @@ Both pages read gameId using useParams and use it to request the matching record
 
 The Catalog fetches game records from Supabase and displays them using reusable GameCard components. Each card shows the game’s title, cover image, description, player count, and playtime.
 
-Users can search by title through a controlled search input. Authenticated users can like or unlike games using the heart shaped button. Home also supports category filtering, while My Vault provides [All, Owned, Liked] filters.
+Users can search by title through a controlled search input and by using filter options. Authenticated users can like or unlike games using the heart shaped button.
 
 ## Details Page
 
@@ -99,7 +97,9 @@ The page displays the game’s description, story, category, mechanics when avai
 
 Board Vault uses Supabase. BoardVault communicates with Supabase's REST API using fetch. The database stores games and user likes and uses RLS policies that allow public game reads, restrict game updates and deletions (only the creator can do that) and allow users to manage only their own likes.
 
-There is not separate backend used.
+Supabase provides the hosted backend so no custom server is required. 
+
+The React frontend is deployed on Vercel.
 
 # 7. Data Operations (CRUD)
 
@@ -107,7 +107,7 @@ All four CRUD operations are implemented for the games collection through gameSe
 
 ## Create (POST)
 
-When authenticated users open Create Game and fill the shared GameForm, then the form validates the inputs before sending a POST request to /rest/v1/games with the user’s access token. Supabase assigns the record’s ownership using the authenticated user. After creation, the application navigates to My Vault, which fetches the user’s games.
+When authenticated users open Create Game and fill the shared GameForm, then the form validates the inputs before sending a POST request to /rest/v1/games with the user’s access token. Supabase assigns the record’s ownership using the authenticated user. After creation, the application navigates to My Vault, which fetches the user’s games. **(At the end of the readme are examples for easy testing when creating a game.)**
 
 ## Read (GET)
 
@@ -154,6 +154,10 @@ Invalid game data prevents submission and displays an inline message. Registrati
 - useLocation: records the private page a guest requested so login can return them there.
 - Custom useAuth hook: accesses authentication state and actions through useContext.
 
+### Component Lifecycle Example
+
+When Edit Game mounts, its useEffect fetches the game identified by the gameId URL parameter. When gameId changes, cleanup marks the previous request to be ignored, and the effect fetches the newly selected game. When the component unmounts, cleanup prevents a pending response from updating its state.
+
 ## Context API
 
 Auth Context shares the current user, access token, onAuthenticate, and onLogout. Consumers include the Header, route guards, authentication pages, Create/Edit pages, Game Details, My Vault, and LikeButton. This way we keep authentication state consistent without passing it through every component.
@@ -161,7 +165,7 @@ Auth Context shares the current user, access token, onAuthenticate, and onLogout
 ## Component Styling
 
 I use a ready template for the html and css.
-The components use external CSS files, primarily App.css and index.css. For example: shared classes style buttons, forms, cards, layouts, and feedback messages. 
+That is why the components use two external CSS files, primarily App.css and index.css. For example: shared classes style buttons, forms, cards, layouts, and feedback messages. 
 
 # 10. Typical User Flow
 1. A visitor browses Home or Catalog, searches for a game by title, and opens its details using View details.
@@ -195,6 +199,18 @@ Unknown URLs display the Not Found page.
 npm install
 ```
 
+Create a `.env` file in the project root:
+
+```env
+VITE_SUPABASE_URL=https://pqtzbcaqmybnleqopcsv.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_QjLV9Gg0zXUisCLmFQ8tWQ_kvt8TMcL
+```
+They are included only for the purpose of the exam.
+
+Use the project URL and publishable key from Supabase. The app requires a configured Supabase backend with the games and likes tables and their access policies.
+
+Start the development server:
+
 ```sh
 npm run dev
 ```
@@ -205,21 +221,6 @@ Other commands:
 - `npm run preview` - preview the build.
 - `npm run lint` - check the code with ESLint.
 
-Create a `.env` file in the project root:
-
-```env
-VITE_SUPABASE_URL=your-supabase-project-url
-VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
-```
-
-Use the project URL and publishable key from Supabase. The app requires a configured Supabase backend with the games and likes tables and their access policies.
-
-Start the development server:
-
-```sh
-npm run dev
-```
-
 Open the local URL printed in the terminal.
 
 ## Project structure
@@ -228,5 +229,126 @@ Open the local URL printed in the terminal.
 - `src/services/` - game and authentication requests.
 - `src/utils/request.js` - shared fetch helper.
 - `src/assets/` - images and icons.
-- `src/App.jsx` - routes and current authentication state.
+- `src/App.jsx` - application routes and shared layout.
+- `src/contexts/AuthProvider.jsx` - shared authentication state, session persistence, token refresh, and logout.
+- `src/hooks/useAuth.js` - custom hook for accessing Auth Context.
 - `src/App.css` and `src/index.css` - styles.
+
+# Testing
+
+## Games
+
+### Codenames
+Title:
+Codenames
+
+Description:
+A team-based word game where clever clues connect secret agents. Help your teammates identify the right words while avoiding the opposing team's agents and the assassin.
+
+Story:
+Two rival spy networks compete to contact their agents first. Only the spymasters know the agents' identities. Give a one-word clue that connects several words on the table, then trust your team to interpret it correctly. One careless guess could end the mission.
+
+Image URL:
+https://cdn.prod.website-files.com/67d17a45b4e1484b40ea8869/67d17a45b4e1484b40ea8cb4_Box%20image%20%281%29.webp
+
+Release year:
+2015
+
+Designer:
+Vlaada Chvátil
+
+Minimum players:
+2
+
+Maximum players:
+8
+
+Minimum playtime:
+15
+
+Maximum playtime:
+15
+
+Category:
+Party
+
+Difficulty:
+1.5
+### Kingdomino
+Title:
+Kingdomino
+
+Description:
+Build a colorful kingdom by connecting matching terrain tiles. Balance forests, lakes, fields, and valuable crowns to create the highest-scoring landscape.
+
+Story:
+Your castle is only the beginning. Explore the surrounding lands and choose territories to expand your kingdom. Powerful tiles offer valuable crowns, but choosing them can leave you picking last next round. Fit your discoveries into a compact kingdom and make every space count.
+
+Image URL:
+https://www.brunocathala.com/wp-content/uploads/2016/10/boitefran%C3%A7aisekingdomino.jpg
+
+Release year:
+2016
+
+Designer:
+Bruno Cathala
+
+Minimum players:
+2
+
+Maximum players:
+4
+
+Minimum playtime:
+15
+
+Maximum playtime:
+15
+
+Category:
+Family
+
+Difficulty:
+1.5
+
+### Splendor
+Title:
+Splendor
+
+Description:
+Collect gemstones and purchase development cards to build a powerful trading engine. Attract noble patrons and earn prestige through careful planning and efficient purchases.
+
+Story:
+Become a Renaissance merchant competing for wealth and influence. Invest in mines, transportation, and skilled artisans to grow your business. Each development makes future purchases easier, but rival merchants are pursuing the same opportunities. Build your reputation and become the most prestigious trader.
+
+Image URL:
+https://cdn.svc.asmodee.net/production-spacecowboys/uploads/image-converter/2025/10/SCPLENDORREFRESH_BACKGROUND.webp
+
+Release year:
+2014
+
+Designer:
+Marc André
+
+Minimum players:
+2
+
+Maximum players:
+4
+
+Minimum playtime:
+30
+
+Maximum playtime:
+30
+
+Category:
+Strategy
+
+Difficulty:
+2
+
+## Test user
+Username: Tester1
+Email: tester@abv.bg
+Pass: asdasdasd1

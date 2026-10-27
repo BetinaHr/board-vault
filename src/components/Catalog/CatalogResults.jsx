@@ -1,13 +1,12 @@
 import GameCard from '../shared/GameCard.jsx';
-export default function CatalogResults({games}) {
 
-    // TODO: Replace static game previews with dynamic data from API. Future React component: <GameGrid />.
+export default function CatalogResults({ games }) {
     return (
         <>
             <section className="section" aria-labelledby="results-title">
                 <div className="section-heading">
                     <h2 id="results-title">
-                        All games 
+                        All games
                         <span className="count">
                             {games.length}
                         </span>
@@ -18,10 +17,26 @@ export default function CatalogResults({games}) {
                     </span>
 
                 </div>
-                {/* GAME GRID Responsive collection of game previews: one, two, or four columns. Future React component: <GameGrid />. */}
-                <div className="game-grid">
-                        {games.map(game => <GameCard key={game.id} game={game} />)}
-                </div>
+
+                {games.length > 0 ? (
+                    <div className="game-grid">
+                        {games.map(game => (
+                            <GameCard key={game.id} game={game} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="empty-state" role="status">
+                        <span className="empty-state__symbol" aria-hidden="true">
+                            ◇
+                        </span>
+
+                        <p className="eyebrow">Keep exploring</p>
+                        <h3>No games found</h3>
+                        <p>
+                            Try another title or adjust your filters to discover more games.
+                        </p>
+                    </div>
+                )}
             </section>
         </>
     );
