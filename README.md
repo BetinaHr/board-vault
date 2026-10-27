@@ -18,26 +18,26 @@ Board Vault helps users discover board games and keep track of games they have a
 - Guests cannot access My Vault, Create Game, or Edit Game, or perform like, create, edit, and delete actions.
 
 ## Authenticated User
-- Main sections / pages: All public content, My Vault (/my-vault), and Create Game (/create-game). My Vault displays owned and liked games with filtering and counts.
-- Details pages: Users can view every game’s details. Creators also see Edit and Delete controls on their own games.
-- Create / Edit / Delete actions: Users can create games, edit their own entries at /edit-game/:gameId, and delete their own entries after confirmation. They can like and unlike games.
-- Private and guest-only route guards control page access. Supabase policies enforce record ownership and permissions. Signed-in users are redirected away from Login and Register.
+- **Main sections / pages**: All public content, My Vault (/my-vault), and Create Game (/create-game). My Vault displays owned and liked games with filtering.
+- **Details pages**: Users can view every game’s details. Creators also see Edit and Delete controls on their own games.
+- **Create / Edit / Delete actions**: Users can create games, edit their own entries at /edit-game/:gameId, and delete their own entries after confirmation. They can like and unlike games.
+- **Private and guest-only** route guards control page access. Supabase policies enforce record ownership and permissions. Signed-in users are redirected away from Login and Register.
 
 # 3. Authentication & Session Handling 
 
 ## Authentication Flow
 
-- When the app loads: AuthProvider reads the saved session from localStorage. If no valid session is stored, the application counts the visitor as a guest. If the stored access token has expired, the application displays a restoration message while requesting a refreshed session.
-- Checking authentication status: Components access the current user and access token through Auth Context using the useAuth hook. Route guards use this state to control access to private and guest-only pages. Supabase verifies tokens and database permissions for API requests.
-- Successful login: Supabase returns the user and session tokens. The application saves the session, updates Context, and redirects the user to the requested private page or Catalog.
-- Successful registration: Supabase creates the account and stores the username in user metadata. If a session is returned, the application signs the user in and redirects it to the catalog.
-- Logout: The application clears Context and localStorage immediately, then requests logout from Supabase. The interface returns to its guest state, and private routes become inaccessible.
+- **When the app loads**: AuthProvider reads the saved session from localStorage. If no valid session is stored, the application counts the visitor as a guest. If the stored access token has expired, the application displays a restoration message while requesting a refreshed session.
+- **Checking authentication status**: Components access the current user and access token through Auth Context using the useAuth hook. Route guards use this state to control access to private and guest-only pages. Supabase verifies tokens and database permissions for API requests.
+- **Successful login**: Supabase returns the user and session tokens. The application saves the session, updates Context, and redirects the user to the requested private page or Catalog.
+- **Successful registration**: Supabase creates the account and stores the username in user metadata. If a session is returned, the application signs the user in and redirects it to the catalog.
+- **Logout**: The application clears Context and localStorage immediately, then requests logout from Supabase. The interface returns to its guest state, and private routes become inaccessible.
 
 ## Session Persistence
 
-The session is stored in localStorage under board-vault-session and shared through Auth Context. It contains the user, access token, refresh token, and expiry time; the password is never stored.
+The session is stored in localStorage under board-vault-session and shared through Auth Context. It contains the user, access token, refresh token, and expiry time. The password is never stored.
 
-After a page refresh, the application restores the stored session without asking for credentials. Access tokens are refreshed shortly before expiry, and the replacement tokens are saved to Context and localStorage. If refreshing fails, the application clears the session and requires the user to log in again.
+After a page refresh, the application restores the stored session without asking for credentials. Access tokens are refreshed shortly before they expire, and the replacement tokens are saved to Context and localStorage. If refreshing fails, the application clears the session and requires the user to log in again.
 
 # 4. Routing Structure
 Board Vault uses React Router for navigation. It has eight main page routes and a fallback route for unknown URLs.
@@ -128,18 +128,18 @@ After deleting a game, you’re taken to Catalog. It fetches the games again, so
 # 8. Forms and Validation
 
 ## Forms Used
-- Registration form: collects username, email, password, and password confirmation.
-- Login form: collects email and password.
-- Create Game form: collects the title, description, story, image URL, release year, designer, player counts, playtimes, category, and difficulty.
-- Edit Game form: uses the same shared GameForm, prefilled with the selected game’s data.
+- **Registration form**: collects username, email, password, and password confirmation.
+- **Login form**: collects email and password.
+- **Create Game form**: collects the title, description, story, image URL, release year, designer, player counts, playtimes, category, and difficulty.
+- **Edit Game form**: uses the same shared GameForm, prefilled with the selected game’s data.
 
 ## Validation Rules
-- Game title: required; must contain 3–100 characters after trimming whitespace.
-- Player counts: required positive whole numbers. Maximum players must be greater than or equal to minimum players.
-- Password (multiple rules): registration requires at least 8 characters, including a letter and a number. Password confirmation must match.
-- Username: trimmed before validation; must contain 3–30 characters and cannot consist only of spaces.
-- Image URL: required; must be a valid URL using HTTP or HTTPS.
-- Playtime: required positive whole numbers. Maximum playtime must be greater than or equal to minimum playtime.
+- **Game title**: required; must contain 3–100 characters after trimming whitespace.
+- **Player counts**: required positive whole numbers. Maximum players must be greater than or equal to minimum players.
+- **Password (multiple rules)**: registration requires at least 8 characters, including a letter and a number. Password confirmation must match.
+- **Username**: trimmed before validation; must contain 3–30 characters and cannot consist only of spaces.
+- **Image URL**: required; must be a valid URL using HTTP or HTTPS.
+- **Playtime**: required positive whole numbers. Maximum playtime must be greater than or equal to minimum playtime.
 
 Invalid game data prevents submission and displays an inline message. Registration validation uses alerts and a separate password-mismatch message.
 
