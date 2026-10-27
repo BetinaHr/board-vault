@@ -199,15 +199,16 @@ Unknown URLs display the Not Found page.
 npm install
 ```
 
-Create a `.env` file in the project root:
+Create a `.env` file in the project root and place the following inside:
 
 ```env
 VITE_SUPABASE_URL=https://pqtzbcaqmybnleqopcsv.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_QjLV9Gg0zXUisCLmFQ8tWQ_kvt8TMcL
 ```
-They are included only for the purpose of the exam.
 
-Use the project URL and publishable key from Supabase. The app requires a configured Supabase backend with the games and likes tables and their access policies.
+The app requires a configured Supabase backend with the games and likes tables and their access policies. I have included my own setup.
+
+**They are included only for the purpose of the exam.**
 
 Start the development server:
 
@@ -223,18 +224,21 @@ Other commands:
 
 Open the local URL printed in the terminal.
 
+## Live Demo
+[Open Board Vault](https://board-vault-sand.vercel.app)
+
 ## Project structure
 
 - `src/components/` - pages, shared components and layout.
 - `src/services/` - game and authentication requests.
-- `src/utils/request.js` - shared fetch helper.
+- `src/utils/request.js` - shared fetch functions.
 - `src/assets/` - images and icons.
 - `src/App.jsx` - application routes and shared layout.
 - `src/contexts/AuthProvider.jsx` - shared authentication state, session persistence, token refresh, and logout.
 - `src/hooks/useAuth.js` - custom hook for accessing Auth Context.
 - `src/App.css` and `src/index.css` - styles.
 
-# Testing
+# Testing Examples
 
 ## Games
 
