@@ -62,7 +62,7 @@ export default function GameDetails() {
         <>
             <section className="game-details" aria-labelledby="game-title">
                 <div className="game-details__art">
-                    <img src={game.image_url} alt={`Illustrated ${game.title} game cover`} width="600" height="600" /><span className="art-caption">A game as beautiful as the birds it celebrates.</span>
+                    <img src={game.image_url} alt={`Illustrated ${game.title} game cover`} width="600" height="600" />
                 </div>
                 <div className="game-details__content">
                     <div className="details-title">
@@ -148,7 +148,7 @@ export default function GameDetails() {
                             Categories &amp; mechanics
                         </h3>
                         <div className="chip-list">
-                            <span className="badge">Strategy</span><span className="badge">Card Drafting</span><span className="badge">Engine Building</span><span className="badge">Set Collection</span>
+                            <span className="badge">{game.category}</span>
                         </div>
                     </section>
                 </div>
