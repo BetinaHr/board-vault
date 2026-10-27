@@ -19,3 +19,12 @@ export function login( email, password ) {
 export function logout(accessToken) {
     return request('/auth/v1/logout?scope=local', 'POST', null, accessToken)
 }
+
+// Refresh session after token expires
+export function refreshSession(refreshToken) {
+    return request(
+        '/auth/v1/token?grant_type=refresh_token',
+        'POST',
+        { refresh_token: refreshToken }
+    );
+}
